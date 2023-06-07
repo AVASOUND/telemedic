@@ -5,10 +5,10 @@ import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
 const navigation = [
-  { name: "Product", href: "#" },
-  { name: "Features", href: "#" },
-  { name: "Marketplace", href: "#" },
-  { name: "Company", href: "#" },
+  { name: "Meet a doctor", href: "/meetadoc" },
+  { name: "Profile", href: "/profile" },
+  { name: "More", href: "/more" },
+  { name: "FAQ", href: "/learnmore" },
 ];
 
 export default function Example() {
@@ -145,7 +145,7 @@ export default function Example() {
                   Meet a doctor
                 </a>
                 <a
-                  href="#"
+                  href="/learnmore"
                   className="text-sm font-semibold leading-6 text-gray-900"
                 >
                   Learn more <span aria-hidden="true">→</span>

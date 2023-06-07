@@ -20,7 +20,7 @@ const people = [
     linkedinUrl: "#",
   },
   {
-    name: "Kharti ?",
+    name: "Kharti Ramachandran",
     role: "Smart Contracts",
     location: "Singapur",
     imageUrl:
