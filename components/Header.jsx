@@ -16,7 +16,19 @@ import {
   PhoneIcon,
   PlayCircleIcon,
 } from "@heroicons/react/20/solid";
+//Changed header to header
+import {  useEffect,useRef} from 'react'
+import {
+    useAccount ,
+    useConnect,
+    useDisconnect,
+   
+  } from 'wagmi'
+  import { ConnectButton } from '@rainbow-me/rainbowkit';
 
+  import { useRouter } from 'next/router'
+
+  import { useSession } from "next-auth/react"
 const products = [
   {
     name: "Analytics",
@@ -168,9 +180,8 @@ export default function Example() {
           </a>
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
-            Log in <span aria-hidden="true">&rarr;</span>
-          </a>
+        <ConnectButton  />
+
         </div>
       </nav>
       <Dialog
@@ -250,12 +261,7 @@ export default function Example() {
                 </a>
               </div>
               <div className="py-6">
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  Log in
-                </a>
+              <ConnectButton  />
               </div>
             </div>
           </div>
