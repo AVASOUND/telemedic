@@ -6,7 +6,7 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 const navigation = [
   { name: "Meet a doctor", href: "/meetadoc" },
-  { name: "Profile", href: "/profile" },
+  { name: "Dashboard", href: "/dashboard" },
   { name: "More", href: "/more" },
   { name: "FAQ", href: "/learnmore" },
 ];
