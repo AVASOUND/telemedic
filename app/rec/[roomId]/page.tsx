@@ -1,7 +1,8 @@
+'use client'
 import { usePeers } from "@huddle01/react/hooks";
 import { useRecorder } from "@huddle01/react/app-utils";
 import { useEffect,useState } from "react"; 
-import { useRouter } from "next/router";
+import { useRouter ,useSearchParams } from "next/navigation";
 import { Audio, Video } from '@huddle01/react/components';
 
  export default function Recorder() {
@@ -9,10 +10,12 @@ import { Audio, Video } from '@huddle01/react/components';
   const { peers } = usePeers();
  
   const router = useRouter();
-  const [roomId, setRoomId] = useState(router.query.roomId?.toString());
+  const searchParams = useSearchParams()
+  const [roomId, setRoomId] = useState(searchParams.get("roomId"));
   useEffect(() => {
-    setRoomId(router.query.roomId?.toString());
-  }, [router.query.roomId?.toString()]);
+    setRoomId(searchParams.get("roomId"));
+    console.log(searchParams.get("roomId"))
+  }, [searchParams.get("roomId")]);
  
   useRecorder(roomId, process.env.NEXT_PUBLIC_HUDDLE_PROJECT_ID);
  
