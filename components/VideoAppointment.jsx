@@ -8,6 +8,7 @@ import {format} from 'date-fns'
 import { useSigner  } from 'wagmi'
 import { useAccount, useSignMessage } from "wagmi";
 import { getAccessToken, getMessage } from "@huddle01/auth";
+import { useDisplayName } from "@huddle01/react/app-utils";
 
 export default function AppointmentVideo() {
     const { data: signer} = useSigner()
@@ -18,6 +19,9 @@ export default function AppointmentVideo() {
     const [hostUrl,setHostUrl] = useState()
     const { initialize, isInitialized } = useHuddle01();
     const {recordingFile,setRecordingFile} = useState()
+    const [displayNameText, setDisplayNameText] = useState("Dominic Hackett");
+    const { setDisplayName, error: displayNameError } = useDisplayName();
+
     const { signMessage } = useSignMessage({
         onSuccess: async (_data) => {
           const token = await getAccessToken(_data, await signer?.getAddress());
@@ -130,7 +134,23 @@ useEventListener("room:recording-stopped",()=>{
      IG
        
       <video ref={videoRef} autoPlay muted></video>
+      <input
+            type="text"
+            placeholder="Your Room Id"
+            value={displayNameText}
+            onChange={(e) => setDisplayNameText(e.target.value)}
+            className="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none mr-2"
+          />
+          <button
+            disabled={!setDisplayName.isCallable}
+            className="m-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 "
 
+            onClick={() => {
+              setDisplayName(displayNameText);
+            }}
+          >
+            {`SET_DISPLAY_NAME error: ${displayNameError}`}
+          </button>
              <button 
         
           className="m-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 "

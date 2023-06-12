@@ -24,7 +24,15 @@ import { Audio, Video } from '@huddle01/react/components';
     console.log(searchParams.get("roomId"))
   }, [searchParams.get("roomId")]);
  */
-  useRecorder(getRoomId(pathname), process.env.NEXT_PUBLIC_HUDDLE_PROJECT_ID);
+
+  useEffect(()=>{
+   
+    if(pathname)
+    //useRecorder(getRoomId(pathname), process.env.NEXT_PUBLIC_HUDDLE_PROJECT_ID);
+    console.log(getRoomId(pathname))
+    else
+     console.log("NFL")
+  },[pathname])
  
   return (
     <div>
