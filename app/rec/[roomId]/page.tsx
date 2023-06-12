@@ -17,7 +17,7 @@ import { Audio, Video } from '@huddle01/react/components';
     console.log(searchParams.get("roomId"))
   }, [searchParams.get("roomId")]);
  
-  useRecorder(roomId, process.env.NEXT_PUBLIC_HUDDLE_PROJECT_ID);
+  useRecorder(searchParams.get("roomId"), process.env.NEXT_PUBLIC_HUDDLE_PROJECT_ID);
  
   return (
     <div>
