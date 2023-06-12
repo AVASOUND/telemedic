@@ -36,7 +36,7 @@ import { Audio, Video } from '@huddle01/react/components';
                 key={peer.peerId}
                 peerId={peer.peerId}
                 track={peer.cam}
-                // debug
+                 debug
               />
             ))}
           {Object.values(peers)
