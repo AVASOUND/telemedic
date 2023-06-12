@@ -2,22 +2,29 @@
 import { usePeers } from "@huddle01/react/hooks";
 import { useRecorder } from "@huddle01/react/app-utils";
 import { useEffect,useState } from "react"; 
-import { useRouter ,useSearchParams } from "next/navigation";
+import { useRouter ,usePathname } from "next/navigation";
 import { Audio, Video } from '@huddle01/react/components';
+
+ function getRoomId(path:string):string {
+  const roomId = path.substring(path.lastIndexOf('/') + 1);
+  
+   return roomId
+ }
+
 
  export default function Recorder() {
  
   const { peers } = usePeers();
  
   const router = useRouter();
-  const searchParams = useSearchParams()
-  const [roomId, setRoomId] = useState(searchParams.get("roomId"));
+  const pathname = usePathname()
+  /*const [roomId, setRoomId] = useState(searchParams.get("roomId"));
   useEffect(() => {
     setRoomId(searchParams.get("roomId"));
     console.log(searchParams.get("roomId"))
   }, [searchParams.get("roomId")]);
- 
-  useRecorder(searchParams.get("roomId"), process.env.NEXT_PUBLIC_HUDDLE_PROJECT_ID);
+ */
+  useRecorder(getRoomId(pathname), process.env.NEXT_PUBLIC_HUDDLE_PROJECT_ID);
  
   return (
     <div>
