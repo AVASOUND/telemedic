@@ -36,6 +36,42 @@ export const createAppointmentRoom = async (starttime:string,expirytime:string,t
 }
 
 
+export const getRoomHostToken = async (roomId)=>{
+    const options = {
+        method: 'POST',
+        headers: {
+          accept: 'application/json',
+          'content-type': 'application/json',
+         
+        },
+        body: JSON.stringify({
+         roomId:roomId
+        }),
+      };
+
+     console.log(JSON.parse(options.body))
+      try {
+        const response = await fetch(
+          process.env.NEXT_PUBLIC_HOST_URL+ '/api/gethosttoken',
+          options
+        );
+        if (response.ok) {
+          const data = await response.json();
+          return data;
+        } else {
+          const errorResponse = await response.json();
+           throw new Error(`Failed to create appointment room: ${errorResponse.message}`);
+
+        }
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
+
+}
+
+
+
 export const createWebinar = async ()=>{
   try {
     const response = await fetch(
