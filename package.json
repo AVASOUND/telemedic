@@ -11,6 +11,7 @@
   "dependencies": {
     "@headlessui/react": "^1.7.15",
     "@heroicons/react": "^2.0.18",
+    "@huddle01/auth": "^0.0.1",
     "@huddle01/react": "^0.0.11",
     "@lit-protocol/lit-node-client": "^2.2.23",
     "@livekit/components-react": "^1.0.5",
