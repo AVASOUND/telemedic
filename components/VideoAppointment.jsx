@@ -11,7 +11,7 @@ export default function AppointmentVideo() {
     const { data: signer} = useSigner()
     const videoRef = useRef();
 
-    const [roomId,setRoomId] = useState("shp-kvqz-zcn")
+    const [roomId,setRoomId] = useState("sny-wsbx-nri")   //shp-kvqz-zcn
     const { initialize, isInitialized } = useHuddle01();
     const {recordingFile,setRecordingFile} = useState()
     
