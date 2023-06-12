@@ -35,6 +35,10 @@ export default function AppointmentVideo() {
         produceVideo, stopProducingVideo ,stream: videoStream 
       } = useVideo();  
     const { joinRoom, leaveRoom } = useRoom();
+
+    useEffect(()=>{
+        console.log(_error)
+    },[_error])
     useEffect(() => {
         // its preferable to use env vars to store projectId
         initialize(process.env.NEXT_PUBLIC_HUDDLE_PROJECT_ID);
