@@ -11,7 +11,8 @@ export default function handler(req, res) {
    body: JSON.stringify({
         roomId:body.roomId,
         userType:body.userType,
-        displayName:body.displayName
+        displayName:body.displayName,
+        guestAsHost:true
       }),
     headers: {
         "Content-type": "application/json",
