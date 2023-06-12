@@ -20,7 +20,7 @@ export default function AppointmentVideo() {
         const {
             startRecording,
             stopRecording,
-            _error:error,
+            error:_error,
             data: recordingData,
           } = useRecording();
             
