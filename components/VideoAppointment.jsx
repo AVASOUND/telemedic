@@ -20,7 +20,7 @@ export default function AppointmentVideo() {
         const {
             startRecording,
             stopRecording,
-            error,
+            _error:error,
             data: recordingData,
           } = useRecording();
             
@@ -181,7 +181,7 @@ useEventListener("room:recording-stopped",()=>{
               startRecording(`${process.env.NEXT_PUBLIC_HOST_URL}/rec/${roomId}?roomId=${roomId}`)
             }
           >
-            {`START_RECORDING error: ${error}`}
+            {`START_RECORDING error: ${_error}`}
           </button>
           <button 
           className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:text-black"
