@@ -6,6 +6,8 @@ import { Audio, Video } from '@huddle01/react/components';
 import { createAppointmentRoom ,getRoomHostToken} from '@/utils/utils';
 import {format} from 'date-fns'
 import { useSigner  } from 'wagmi'
+import { useAccount, useSignMessage } from "wagmi";
+import { getAccessToken, getMessage } from "@huddle01/auth";
 
 export default function AppointmentVideo() {
     const { data: signer} = useSigner()
@@ -13,9 +15,15 @@ export default function AppointmentVideo() {
 
     const [roomId,setRoomId] = useState("sny-wsbx-nri")   //shp-kvqz-zcn
     const [hostToken,setHostToken] = useState()
+    const [hostUrl,setHostUrl] = useState()
     const { initialize, isInitialized } = useHuddle01();
     const {recordingFile,setRecordingFile} = useState()
-    
+    const { signMessage } = useSignMessage({
+        onSuccess: async (_data) => {
+          const token = await getAccessToken(_data, await signer?.getAddress());
+          setHostToken(token.accessToken);
+        },
+      });
     const { joinLobby } = useLobby();
         const { peers } = usePeers();
         const {
@@ -51,6 +59,13 @@ export default function AppointmentVideo() {
         setHostToken(result.token)
         console.log(result)
     }  
+
+
+    const goToLobby = () =>
+    {
+         alert(`${roomId}   ${hostToken}`)
+         joinLobby(roomId,hostToken)
+    }
 
     const createRoom = async ()=>{
       const start = new Date()
@@ -131,11 +146,20 @@ useEventListener("room:recording-stopped",()=>{
       }>
         Host Token
       </button>    
+
+
+      <button 
+        onClick={ async() => {
+          const msg = await getMessage(await signer?.getAddress());
+          signMessage({ message: msg.message });
+        }}> 
+        Sign Message
+      </button>
         <button 
           disabled={!joinLobby.isCallable} 
           className="m-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:text-black"
 
-          onClick={() => joinLobby(roomId,hostToken)
+          onClick={() => goToLobby()
         }>
           Join Lobby
         </button>
