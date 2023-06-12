@@ -10,7 +10,8 @@ export default function handler(req, res) {
     method: 'POST',
    body: JSON.stringify({
         roomId:body.roomId,
-        userType:"host"
+        userType:body.userType,
+        displayName:body.displayName
       }),
     headers: {
         "Content-type": "application/json",

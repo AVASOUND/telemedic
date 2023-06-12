@@ -36,7 +36,7 @@ export const createAppointmentRoom = async (starttime:string,expirytime:string,t
 }
 
 
-export const getRoomHostToken = async (roomId)=>{
+export const getToken = async (roomId:string,userType:string,displayName:string)=>{
     const options = {
         method: 'POST',
         headers: {
@@ -45,14 +45,16 @@ export const getRoomHostToken = async (roomId)=>{
          
         },
         body: JSON.stringify({
-         roomId:roomId
+         roomId:roomId,
+         userType:userType,
+         displayName:displayName
         }),
       };
 
      console.log(JSON.parse(options.body))
       try {
         const response = await fetch(
-          process.env.NEXT_PUBLIC_HOST_URL+ '/api/gethosttoken',
+          process.env.NEXT_PUBLIC_HOST_URL+ '/api/gettoken',
           options
         );
         if (response.ok) {

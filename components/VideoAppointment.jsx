@@ -3,7 +3,7 @@ import { useEventListener, useHuddle01 } from '@huddle01/react';
 import { useVideo,useAudio,useRoom,useLobby,error,isLobbyJoined ,usePeers,useRecording} from '@huddle01/react/hooks';
 import { useEffect,useState ,useRef} from 'react';
 import { Audio, Video } from '@huddle01/react/components';
-import { createAppointmentRoom ,getRoomHostToken} from '@/utils/utils';
+import { createAppointmentRoom ,getToken} from '@/utils/utils';
 import {format} from 'date-fns'
 import { useSigner  } from 'wagmi'
 import { useAccount, useSignMessage } from "wagmi";
@@ -55,8 +55,9 @@ export default function AppointmentVideo() {
 
 
     const getHostToken = async ()=>{
-        const result = await getRoomHostToken(roomId)
+        const result = await getToken(roomId,"host","Dominic Hackett")
         setHostToken(result.token)
+        setHostUrl(result.redirectUrl)
         console.log(result)
     }  
 
@@ -75,6 +76,7 @@ export default function AppointmentVideo() {
         console.log(await signer.getAddress())
       const result = await createAppointmentRoom(start.toISOString(),end.toISOString(),"12",await signer.getAddress())
       console.log(result)
+      setRoomId(result.data.roomId)
      }catch(err)
      {
          console.log(err)
@@ -239,6 +241,7 @@ useEventListener("room:recording-stopped",()=>{
 
           </div>
 </div>
+
 </div>
     )
 }  
