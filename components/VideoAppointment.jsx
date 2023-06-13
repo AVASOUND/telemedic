@@ -3,24 +3,37 @@ import { useEventListener, useHuddle01 } from '@huddle01/react';
 import { useVideo,useAudio,useRoom,useLobby,error,isLobbyJoined ,usePeers,useRecording} from '@huddle01/react/hooks';
 import { useEffect,useState ,useRef} from 'react';
 import { Audio, Video } from '@huddle01/react/components';
-import { createAppointmentRoom } from '@/utils/utils';
+import { createAppointmentRoom ,getToken} from '@/utils/utils';
 import {format} from 'date-fns'
 import { useSigner  } from 'wagmi'
+import { useAccount, useSignMessage } from "wagmi";
+import { getAccessToken, getMessage } from "@huddle01/auth";
+import { useDisplayName } from "@huddle01/react/app-utils";
 
 export default function AppointmentVideo() {
     const { data: signer} = useSigner()
     const videoRef = useRef();
 
-    const [roomId,setRoomId] = useState("shp-kvqz-zcn")
+    const [roomId,setRoomId] = useState("sny-wsbx-nri")   //shp-kvqz-zcn
+    const [hostToken,setHostToken] = useState()
+    const [hostUrl,setHostUrl] = useState()
     const { initialize, isInitialized } = useHuddle01();
     const {recordingFile,setRecordingFile} = useState()
-    
+    const [displayNameText, setDisplayNameText] = useState("Dominic Hackett");
+    const { setDisplayName, error: displayNameError } = useDisplayName();
+
+    const { signMessage } = useSignMessage({
+        onSuccess: async (_data) => {
+          const token = await getAccessToken(_data, await signer?.getAddress());
+          setHostToken(token.accessToken);
+        },
+      });
     const { joinLobby } = useLobby();
         const { peers } = usePeers();
         const {
             startRecording,
             stopRecording,
-            error,
+            error:_error,
             data: recordingData,
           } = useRecording();
             
@@ -35,10 +48,29 @@ export default function AppointmentVideo() {
         produceVideo, stopProducingVideo ,stream: videoStream 
       } = useVideo();  
     const { joinRoom, leaveRoom } = useRoom();
+
+    useEffect(()=>{
+        console.log(_error)
+    },[_error])
     useEffect(() => {
         // its preferable to use env vars to store projectId
         initialize(process.env.NEXT_PUBLIC_HUDDLE_PROJECT_ID);
       }, []);
+
+
+    const getHostToken = async ()=>{
+        const result = await getToken(roomId,"host","Dominic Hackett")
+        setHostToken(result.token)
+        setHostUrl(result.redirectUrl)
+        console.log(result)
+    }  
+
+
+    const goToLobby = () =>
+    {
+         alert(`${roomId}   ${hostToken}`)
+         joinLobby(roomId,hostToken)
+    }
 
     const createRoom = async ()=>{
       const start = new Date()
@@ -48,6 +80,7 @@ export default function AppointmentVideo() {
         console.log(await signer.getAddress())
       const result = await createAppointmentRoom(start.toISOString(),end.toISOString(),"12",await signer.getAddress())
       console.log(result)
+      setRoomId(result.data.roomId)
      }catch(err)
      {
          console.log(err)
@@ -101,7 +134,23 @@ useEventListener("room:recording-stopped",()=>{
      IG
        
       <video ref={videoRef} autoPlay muted></video>
+      <input
+            type="text"
+            placeholder="Your Room Id"
+            value={displayNameText}
+            onChange={(e) => setDisplayNameText(e.target.value)}
+            className="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none mr-2"
+          />
+          <button
+            disabled={!setDisplayName.isCallable}
+            className="m-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 "
 
+            onClick={() => {
+              setDisplayName(displayNameText);
+            }}
+          >
+            {`SET_DISPLAY_NAME error: ${displayNameError}`}
+          </button>
              <button 
         
           className="m-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 "
@@ -110,11 +159,29 @@ useEventListener("room:recording-stopped",()=>{
         }>
           Create Room
         </button>    
+
+        <button 
+        
+        className="m-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 "
+
+        onClick={() => getHostToken()
+      }>
+        Host Token
+      </button>    
+
+
+      <button 
+        onClick={ async() => {
+          const msg = await getMessage(await signer?.getAddress());
+          signMessage({ message: msg.message });
+        }}> 
+        Sign Message
+      </button>
         <button 
           disabled={!joinLobby.isCallable} 
           className="m-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:text-black"
 
-          onClick={() => joinLobby(roomId)
+          onClick={() => goToLobby()
         }>
           Join Lobby
         </button>
@@ -152,14 +219,14 @@ useEventListener("room:recording-stopped",()=>{
         <button 
                           className="m-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:text-black"
 
-        disabled={!produceVideo.isCallable} onClick={() => produceVideo(camStream)}>
+        disabled={!produceVideo.isCallable} onClick={() => produceVideo(videoStream)}>
           Produce Cam  
         </button>
  
         <button 
                           className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:text-black"
 
-        disabled={!produceAudio.isCallable} onClick={() => produceAudio(micStream)}>
+        disabled={!produceAudio.isCallable} onClick={() => produceAudio(audioStream)}>
           Produce Mic  
         </button>
  
@@ -178,10 +245,10 @@ useEventListener("room:recording-stopped",()=>{
           className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:text-black"
             disabled={!startRecording.isCallable}
             onClick={() =>
-              startRecording(`${window.location.href}rec/${roomId}`)
+              startRecording(`${process.env.NEXT_PUBLIC_HOST_URL}/rec/${roomId}`)
             }
           >
-            {`START_RECORDING error: ${error}`}
+            {`START_RECORDING error: ${_error}`}
           </button>
           <button 
           className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:text-black"
@@ -194,6 +261,7 @@ useEventListener("room:recording-stopped",()=>{
 
           </div>
 </div>
+
 </div>
     )
 }  
