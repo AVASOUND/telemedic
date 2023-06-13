@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 const navigation = [
   { name: "Meet a doctor", href: "/meetadoc" },
   { name: "Dashboard", href: "/dashboard" },
@@ -53,8 +53,7 @@ export default function Example() {
             ))}
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <ConnectButton  />
-
+            <ConnectButton />
           </div>
         </nav>
         <Dialog
@@ -97,8 +96,7 @@ export default function Example() {
                   ))}
                 </div>
                 <div className="py-6">
-                <ConnectButton  />
-
+                  <ConnectButton />
                 </div>
               </div>
             </div>
@@ -135,12 +133,6 @@ export default function Example() {
                   className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                   Meet a doctor
-                </a>
-                <a
-                  href="/learnmore"
-                  className="text-sm font-semibold leading-6 text-gray-900"
-                >
-                  Learn more <span aria-hidden="true">→</span>
                 </a>
               </div>
             </div>

@@ -3,10 +3,10 @@
 const people = [
   {
     name: "Felix Prabitz",
-    role: "Frontend / Teamlead",
+    role: "Frontend",
     location: "Austria",
     imageUrl:
-      "https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
+      "https://avatars.githubusercontent.com/u/85222875?s=400&u=fffd1ae9d0bf477a846499faa5042b1ceb01cdaa&v=4",
     twitterUrl: "#",
     linkedinUrl: "#",
   },
@@ -14,8 +14,8 @@ const people = [
     name: "Dominic Hackett",
     role: "Backend / Smart Contract / Devlead",
     location: "Trinidad & Tobago",
-    imageUrl:
-      "https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
+    imageUrl: "https://avatars.githubusercontent.com/u/1897212?v=4",
+
     twitterUrl: "#",
     linkedinUrl: "#",
   },
@@ -23,21 +23,19 @@ const people = [
     name: "Kharti Ramachandran",
     role: "Smart Contracts",
     location: "Singapur",
-    imageUrl:
-      "https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
+    imageUrl: "https://avatars.githubusercontent.com/u/33004854?v=4",
     twitterUrl: "#",
+
     linkedinUrl: "#",
   },
   {
     name: "Devin Lamoreux ",
     role: "UI / Branding",
     location: "NYC, USA",
-    imageUrl:
-      "https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
+    imageUrl: "https://avatars.githubusercontent.com/u/83999942?v=4",
     twitterUrl: "#",
     linkedinUrl: "#",
   },
-  // More people...
 ];
 
 export default function Example() {
