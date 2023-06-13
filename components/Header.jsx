@@ -17,18 +17,13 @@ import {
   PlayCircleIcon,
 } from "@heroicons/react/20/solid";
 //Changed header to header
-import {  useEffect,useRef} from 'react'
-import {
-    useAccount ,
-    useConnect,
-    useDisconnect,
-   
-  } from 'wagmi'
-  import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { useEffect, useRef } from "react";
+import { useAccount, useConnect, useDisconnect } from "wagmi";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
-  import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
 
-  import { useSession } from "next-auth/react"
+import { useSession } from "next-auth/react";
 const products = [
   {
     name: "Analytics",
@@ -82,11 +77,11 @@ export default function Example() {
         <div className="flex lg:flex-1">
           <a href="#" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
-            <img
+            {/* <img
               className="h-8 w-auto"
               src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
               alt=""
-            />
+            /> */}
           </a>
         </div>
         <div className="flex lg:hidden">
@@ -167,10 +162,16 @@ export default function Example() {
             Home
           </a>
           <a
-            href="/profile"
+            href="/meetadoc"
             className="text-sm font-semibold leading-6 text-gray-900"
           >
-            Profile
+            Meet A Doctor
+          </a>
+          <a
+            href="/dashboard"
+            className="text-sm font-semibold leading-6 text-gray-900"
+          >
+            Dashboard
           </a>
           <a
             href="/more"
@@ -180,8 +181,7 @@ export default function Example() {
           </a>
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-        <ConnectButton  />
-
+          <ConnectButton />
         </div>
       </nav>
       <Dialog
@@ -261,7 +261,7 @@ export default function Example() {
                 </a>
               </div>
               <div className="py-6">
-              <ConnectButton  />
+                <ConnectButton />
               </div>
             </div>
           </div>
