@@ -9,8 +9,8 @@ import { useSigner  } from 'wagmi'
 export default function Webinar() {
     const { data: signer} = useSigner()
    
-    const [roomId,setRoomId] = useState("c191e514-f6ac-4651-b707-5ef66b132a91")
-    const [pToken,setPToken] = useState("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiRG9taW5pYyBIYWNrZXR0IiwidmlkZW8iOnsicm9vbUpvaW4iOnRydWUsInJvb20iOiJjMTkxZTUxNC1mNmFjLTQ2NTEtYjcwNy01ZWY2NmIxMzJhOTEifSwiaWF0IjoxNjg2NTI1Mjg1LCJuYmYiOjE2ODY1MjUyODUsImV4cCI6MTY4NjUyNTU4NSwiaXNzIjoiQVBJNTRENHc4c0Nmd2VWIiwic3ViIjoiZGFjNWY0NzAtOWIyYy00MTA1LWFkOGEtZmM2ZWFlYjUwMzhlIiwianRpIjoiZGFjNWY0NzAtOWIyYy00MTA1LWFkOGEtZmM2ZWFlYjUwMzhlIn0.n0NznkSRXVWxxgE0hoSJtE9kEf6PYbIr5tNOdGqazTY")
+    const [roomId,setRoomId] = useState()
+    const [pToken,setPToken] = useState()
     
     const _createWebinar = async ()=>{
       
@@ -19,7 +19,8 @@ export default function Webinar() {
 
         
         console.log(result)
-        setPToken(result?.token)
+      
+        setRoomId(result.id)
      }catch(err)
      {
          console.log(err)
@@ -32,6 +33,7 @@ export default function Webinar() {
         try{
            const result = await addWebinarParticipant("Dominic Hackett",roomId)
            console.log(result)
+           setPToken(result?.token)
         }catch(err)
         {
             console.log(err)

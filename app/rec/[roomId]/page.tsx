@@ -25,15 +25,7 @@ import { Audio, Video } from '@huddle01/react/components';
   }, [searchParams.get("roomId")]);
  */
 
-  useEffect(()=>{
-   
-    if(pathname)
-    //useRecorder(getRoomId(pathname), process.env.NEXT_PUBLIC_HUDDLE_PROJECT_ID);
-    console.log(getRoomId(pathname))
-    else
-     console.log("NFL")
-  },[pathname])
- 
+  useRecorder(getRoomId(pathname), process.env.NEXT_PUBLIC_HUDDLE_PROJECT_ID);
   return (
     <div>
       <div className="grid grid-cols-4">

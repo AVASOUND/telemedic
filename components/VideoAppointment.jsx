@@ -1,6 +1,6 @@
 'use client'
 import { useEventListener, useHuddle01 } from '@huddle01/react';
-import { useVideo,useAudio,useRoom,useLobby,error,isLobbyJoined ,usePeers,useRecording} from '@huddle01/react/hooks';
+import { useVideo,useAudio,useRoom,useLobby ,usePeers,useRecording} from '@huddle01/react/hooks';
 import { useEffect,useState ,useRef} from 'react';
 import { Audio, Video } from '@huddle01/react/components';
 import { createAppointmentRoom ,getToken} from '@/utils/utils';
@@ -9,6 +9,7 @@ import { useSigner  } from 'wagmi'
 import { useAccount, useSignMessage } from "wagmi";
 import { getAccessToken, getMessage } from "@huddle01/auth";
 import { useDisplayName } from "@huddle01/react/app-utils";
+import { HuddleIframe,iframeApi  } from "@huddle01/iframe";
 
 export default function AppointmentVideo() {
     const { data: signer} = useSigner()
@@ -17,6 +18,7 @@ export default function AppointmentVideo() {
     const [roomId,setRoomId] = useState("sny-wsbx-nri")   //shp-kvqz-zcn
     const [hostToken,setHostToken] = useState()
     const [hostUrl,setHostUrl] = useState()
+    const [redirectUrl,setRedirectUrl] = useState()
     const { initialize, isInitialized } = useHuddle01();
     const {recordingFile,setRecordingFile} = useState()
     const [displayNameText, setDisplayNameText] = useState("Dominic Hackett");
@@ -61,7 +63,8 @@ export default function AppointmentVideo() {
     const getHostToken = async ()=>{
         const result = await getToken(roomId,"host","Dominic Hackett")
         setHostToken(result.token)
-        setHostUrl(result.redirectUrl)
+        setHostUrl(result.hostUrl)
+        setRedirectUrl(result.redirectUrl)
         console.log(result)
     }  
 
@@ -86,6 +89,9 @@ export default function AppointmentVideo() {
          console.log(err)
      }  
     }   
+
+    useEventListener("room:joined", () => {
+ alert("joined")      });
      // Event Listner
   useEventListener("lobby:cam-on", () => {
     if (videoStream && videoRef.current) videoRef.current.srcObject = videoStream;
@@ -107,7 +113,7 @@ useEventListener("room:recording-stopped",()=>{
               Doctors Appointment
             </h2>
             <p className="mt-4 text-lg leading-8 text-gray-600">
-              Welcome to your Appointment.         {isLobbyJoined ? "lobby": error} 
+              Welcome to your Appointment.      
 
             </p>
             <div>
@@ -258,6 +264,10 @@ useEventListener("room:recording-stopped",()=>{
 
       </div>
       {recordingFile && <a href={recordingFile}>Download Recording</a>}
+
+
+     { hostUrl && <HuddleIframe roomUrl={hostUrl}  className="w-full aspect-video" />}
+
 
           </div>
 </div>

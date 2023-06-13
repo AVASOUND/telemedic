@@ -1,0 +1,115 @@
+'use client'
+import Hero from "../../components/Hero";
+import Team from "../../components/Team";
+import { insertSpecialty,querySpecialty,insertDoctor,queryDoctors,insertPatient,queryPatient,
+  insertAppointment,queryAppointments,updateAppointmentNotes,updateAppointmentStatus,updateDoctorPicture
+  ,updateDoctor,updatePatient,queryDoctor,insertWebinar,updateWebinar,updateWebinarStatus,queryWebinar,queryWebinars } from "@/mypolybase/polybase";
+  import { useSigner  } from 'wagmi'
+
+  export default function Home() {
+    const { data: signer} = useSigner()
+
+const _insertSpecialty = async()=>{
+ // await insertSpecialty("Gynecologist","Specializes in women's reproductive health, including the female reproductive system, pregnancy, childbirth, and related disorders")
+   const results = await querySpecialty()
+   console.log(results)
+}
+
+const _insertDoctor = async()=>{
+  // const results = await updateDoctor("901969fa-f4bf-4839-bd39-799123b50382","Jordan","Khan","0fb59ff0-15af-4aa5-bdb8-3909196b4993","MD","30 Years","1-868-555-0101","mikhail@telemedic.com","14 Smith Street","Brooklyn","New York","11203","United State",50,"Star")
+   const result = await queryDoctor("901969fa-f4bf-4839-bd39-799123b50382")
+   console.log(result)
+  //const results = await queryDoctors();
+  //console.log(results)
+  //await updateDoctorPicture("901969fa-f4bf-4839-bd39-799123b50382","https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcTcvV1vcpgk0JZa2zT4gwxKz6tayysSw3u3ymiiT6brk7AzMOlasLFOAq0BZMQWLYvIBI1auGvLzkzzDPU")
+}
+
+const _insertPatient = async()=>{
+    const dob = new Date()
+   const results = await updatePatient("a72e5e2c-5e16-4390-9c97-439d006bef43","Mikhail","Spears","Male",dob.getTime(),"1-868-555-0101"
+   ,"mikhail@telemedic.com","14 Smith Street","Brooklyn","New York","11203","United State","1-868-555-7777")
+  // const results = await queryPatient("a72e5e2c-5e16-4390-9c97-439d006bef43");
+   //console.log(results)
+ }
+
+
+ const _insertAppointment = async()=>{
+  //const dob = new Date()
+ //const results = await insertPatient("Mikhail","Khan","Male",dob.getTime(),"1-868-555-0101"
+ //,"mikhail@telemedic.com","14 Smith Street","Brooklyn","New York","11203","United State","1-868-555-7777")
+// const results = await queryPatient("a72e5e2c-5e16-4390-9c97-439d006bef43");
+ //const date = new Date()
+ //const results = await insertAppointment(date.getTime(),"901969fa-f4bf-4839-bd39-799123b50382","a72e5e2c-5e16-4390-9c97-439d006bef43","General Checkup",1,"wyl-lbbq-ehv")
+
+// await updateAppointmentNotes("30b78cab-a831-4a6a-8a8e-b2f24bacca4d","You are ok.")
+//await updateAppointmentStatus("30b78cab-a831-4a6a-8a8e-b2f24bacca4d",2)
+const results = await queryAppointments()
+console.log(results)
+}
+
+const webinar = async ()=>{
+
+  const starttime = new Date().getTime()
+  const endtime = new Date().getTime()  
+//  await insertWebinar("Sleep Therapy","Why you should go to bed early.",starttime,endtime,await signer?.getAddress())
+  const results = await queryWebinar("deefcaf7-c11d-4f97-8565-4899dd65945a")
+   console.log(results)
+//await updateWebinarStatus("deefcaf7-c11d-4f97-8565-4899dd65945a",2)
+   //await updateWebinar("deefcaf7-c11d-4f97-8565-4899dd65945a","Sleep Therapy","Why you should go to bed early?",starttime,endtime)
+}
+  return (
+    <main className="flex min-h-screen flex-col items-center justify-between">
+      <Hero />
+      <div className="z-50 bg-white pb-16 w-full">
+        <div className="mx-auto max-w-7xl px-6 text-center lg:px-8">
+          <div className="mx-auto max-w-2xl">
+             
+     <button
+               className="m-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:text-black"
+
+       onClick={()=> _insertSpecialty()}
+     >
+      Insert Specialty
+
+     </button>
+
+     <button
+               className="m-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:text-black"
+
+       onClick={()=> _insertDoctor()}
+     >
+      Insert Doctor
+
+     </button>
+
+     <button
+               className="m-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:text-black"
+
+       onClick={()=> _insertPatient()}
+     >
+      Insert Patient
+
+     </button>
+     <button
+               className="m-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:text-black"
+
+       onClick={()=> _insertAppointment()}
+     >
+      Insert Appointment
+
+     </button>
+     <button
+               className="m-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:text-black"
+
+       onClick={()=> webinar()}
+     >
+      Webinar
+
+     </button>
+
+     </div>
+     </div>
+     </div>
+    </main>
+  );
+}
