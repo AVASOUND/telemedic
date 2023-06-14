@@ -4,7 +4,9 @@ import Team from "../../components/Team";
 import { insertSpecialty,querySpecialty,insertDoctor,queryDoctors,insertPatient,queryPatient,
   insertAppointment,queryAppointments,updateAppointmentNotes,updateAppointmentStatus,updateDoctorPicture
   ,updateDoctor,updatePatient,queryDoctor,insertWebinar,updateWebinar,updateWebinarStatus,queryWebinar,queryWebinars } from "@/mypolybase/polybase";
+  import { encryptNotes,decryptNotes } from "@/lit/lit";
   import { useSigner  } from 'wagmi'
+  import * as LitJsSdk from "@lit-protocol/lit-node-client";
 
   export default function Home() {
     const { data: signer} = useSigner()
@@ -16,7 +18,7 @@ const _insertSpecialty = async()=>{
 }
 
 const _insertDoctor = async()=>{
-  // const results = await updateDoctor("901969fa-f4bf-4839-bd39-799123b50382","Jordan","Khan","0fb59ff0-15af-4aa5-bdb8-3909196b4993","MD","30 Years","1-868-555-0101","mikhail@telemedic.com","14 Smith Street","Brooklyn","New York","11203","United State",50,"Star")
+   //const results = await updateDoctor("901969fa-f4bf-4839-bd39-799123b50382","Jordan","Khan","0fb59ff0-15af-4aa5-bdb8-3909196b4993","MD","30 Years","1-868-555-0101","mikhail@telemedic.com","14 Smith Street","Brooklyn","New York","11203","United State",50,"Star",await signer?.getAddress())
    const result = await queryDoctor("901969fa-f4bf-4839-bd39-799123b50382")
    console.log(result)
   //const results = await queryDoctors();
@@ -45,6 +47,14 @@ const _insertPatient = async()=>{
 //await updateAppointmentStatus("30b78cab-a831-4a6a-8a8e-b2f24bacca4d",2)
 const results = await queryAppointments()
 console.log(results)
+const _address = await signer?.getAddress()
+console.log(results[0])
+if(results[0]?.encryptedSymmetricKey)
+
+{const encryptedSymmetricKey = results[0].encryptedSymmetricKey
+const encryptedString = new Blob([results[0].notes], { type: "application/octet-stream" });
+const {decryptedString} = await decryptNotes( encryptedString,_address,_address,encryptedSymmetricKey)
+console.log(decryptedString)}
 }
 
 const webinar = async ()=>{
@@ -55,7 +65,23 @@ const webinar = async ()=>{
   const results = await queryWebinar("deefcaf7-c11d-4f97-8565-4899dd65945a")
    console.log(results)
 //await updateWebinarStatus("deefcaf7-c11d-4f97-8565-4899dd65945a",2)
-   //await updateWebinar("deefcaf7-c11d-4f97-8565-4899dd65945a","Sleep Therapy","Why you should go to bed early?",starttime,endtime)
+ //  await updateWebinar("deefcaf7-c11d-4f97-8565-4899dd65945a","Sleep Therapy","Why you should go to bed early?",starttime,endtime,1)
+}
+
+const lit = async ()=>{
+  const _address = await signer?.getAddress()
+  const {encryptedString,encryptedSymmetricKey} =await  encryptNotes("Hello World",_address,_address)
+  try
+  {const {decryptedString} = await decryptNotes( encryptedString,_address,_address,encryptedSymmetricKey)
+  console.log(decryptedString)
+} catch(error:any)
+{
+    console.log(error)
+}
+  console.log( encryptedString)
+  const str = new Uint8Array(await encryptedString.arrayBuffer())
+   await updateAppointmentNotes("30b78cab-a831-4a6a-8a8e-b2f24bacca4d",str,encryptedSymmetricKey)
+
 }
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
@@ -104,6 +130,15 @@ const webinar = async ()=>{
        onClick={()=> webinar()}
      >
       Webinar
+
+     </button>
+
+     <button
+               className="m-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:text-black"
+
+       onClick={()=> lit()}
+     >
+      Lit
 
      </button>
 

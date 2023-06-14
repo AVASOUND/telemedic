@@ -59,7 +59,7 @@ export const insertDoctor = async (firstname:string
   ,street:string
   ,city:string
   ,state:string
-  ,zip:string,country:string,fee:number,profile:string)=>{
+  ,zip:string,country:string,fee:number,profile:string,ethAddress:string)=>{
 
     const  doctorCollection = db.collection("Doctor");
 
@@ -67,7 +67,7 @@ export const insertDoctor = async (firstname:string
     try{
         const recordData = await doctorCollection.create([id,firstname,lastname
           ,db.collection("Specialty").record(specialty)
-          ,qualifications,experience,phone,email,street,city,state,zip,country,fee,profile])
+          ,qualifications,experience,phone,email,street,city,state,zip,country,fee,profile,ethAddress])
     }catch(error:any) 
     {
         throw Error(error.message)
@@ -86,14 +86,14 @@ export const updateDoctor = async (id:string,firstname:string
   ,street:string
   ,city:string
   ,state:string
-  ,zip:string,country:string,fee:number,profile:string)=>{
+  ,zip:string,country:string,fee:number,profile:string,ethAddress:string)=>{
 
     const  doctorCollection = db.collection("Doctor");
 
     try{
         const recordData = await doctorCollection.record(id).call("updateDoctor",[firstname,lastname
           ,db.collection("Specialty").record(specialty)
-          ,qualifications,experience,phone,email,street,city,state,zip,country,fee,profile])
+          ,qualifications,experience,phone,email,street,city,state,zip,country,fee,profile,ethAddress])
     }catch(error:any) 
     {
         throw Error(error.message)
@@ -237,10 +237,10 @@ export const insertAppointment = async (date:number,doctor:string,patient:string
 
 }
 
-export const updateAppointmentNotes = async(id:string,notes:string) =>{
+export const updateAppointmentNotes = async(id:string,notes:Uint8Array,encryptedSymmetricKey:string) =>{
   const  appointmentCollection = db.collection("Appointment");
   try{
-    const recordData = await appointmentCollection.record(id).call("updateNotes",[notes])
+    const recordData = await appointmentCollection.record(id).call("updateNotes",[notes,encryptedSymmetricKey])
 }catch(error:any) 
 {
     throw Error(error.message)
@@ -270,8 +270,8 @@ export const queryAppointments = async ( )=>{
   try{
     const records = await appointmentCollection.get();
     let _data:any = []
-    records.data.forEach(async(record)=>{
-      const appointment = record.data
+    for(const index in records.data){
+      const appointment = records.data[index].data
 
         const doctor = await doctorCollection.record(appointment.doctor.id).get() 
         console.log(doctor)
@@ -282,7 +282,7 @@ export const queryAppointments = async ( )=>{
         appointment.patient  = patient.data
         appointment.doctor.specialtyname = specialty?.data.name
         _data.push(appointment)
-    })
+    }
      return _data
   }catch(error:any){
     throw Error(error.message)
@@ -291,13 +291,13 @@ export const queryAppointments = async ( )=>{
 }
 
 
-export const insertWebinar = async (title:string,description:string,starttime:number,endtime:number,owner:string)=>{
+export const insertWebinar = async (title:string,description:string,starttime:number,endtime:number,owner:string,tokenId:number)=>{
 
     const  webinarCollection = db.collection("Webinar");
 
     const id = uuidv4()
     try{
-        const recordData = await webinarCollection.create([id,title,description,starttime,endtime,owner])
+        const recordData = await webinarCollection.create([id,title,description,starttime,endtime,owner,tokenId])
     }catch(error:any) 
     {
         throw Error(error.message)
@@ -307,13 +307,13 @@ export const insertWebinar = async (title:string,description:string,starttime:nu
 }
 
 
-export const updateWebinar = async (id:string,title:string,description:string,starttime:number,endtime:number)=>{
+export const updateWebinar = async (id:string,title:string,description:string,starttime:number,endtime:number,tokenId:number)=>{
 
   const  webinarCollection = db.collection("Webinar");
 
   
   try{
-      const recordData = await webinarCollection.record(id).call("updateWebinar",[title,description,starttime,endtime])
+      const recordData = await webinarCollection.record(id).call("updateWebinar",[title,description,starttime,endtime,tokenId])
   }catch(error:any) 
   {
       throw Error(error.message)
