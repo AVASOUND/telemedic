@@ -36,6 +36,12 @@ contract TeleAppointment is Ownable, ReentrancyGuard{
         string specialisation;
     }
 
+    struct PatientDetails {
+        string fname;
+        string sName;
+        address wallet;
+    }
+
 
     struct Appointment{
         address doctor;
@@ -52,6 +58,7 @@ contract TeleAppointment is Ownable, ReentrancyGuard{
     mapping(string => Doctor) public doctorList;
     mapping(address => mapping(string => uint)) public wallets;
     mapping(uint => Appointment) public appointments;
+    mapping (address => PatientDetails ) public patients;
     mapping(string => IERC20) public currencies; // expected currencies USDC and APECOIN
 
     event NewDoctor (
@@ -71,6 +78,8 @@ contract TeleAppointment is Ownable, ReentrancyGuard{
         string currency,
         string status
     );
+
+
 
 
     function addCurrencies( string memory _currency, address _tokenAddress) public onlyOwner {
@@ -110,7 +119,7 @@ contract TeleAppointment is Ownable, ReentrancyGuard{
     function bookAppointment(string memory _doctorName, string memory _patientName, uint _sessionsCount, uint _time, string memory _currencyOfPayment ) public {
 
         appointmentId++;
-        require(doctorList[_doctorName].wallet != address(0), "Docotor is not in List");
+        require(doctorList[_doctorName].wallet != address(0), "Doctor is not in List");
         uint charges;
          if (keccak256(abi.encodePacked((_currencyOfPayment))) == keccak256(abi.encodePacked(('USD')))) {
             charges = doctorList[_doctorName].chargesInUsd * _sessionsCount * 10 ** 6;
@@ -154,6 +163,10 @@ contract TeleAppointment is Ownable, ReentrancyGuard{
             require(appointments[aId].status == AppointmentStatus.Cancelled);
         }
         appointments[aId].status = _status;
+    }
+
+    function addPatient(string memory _fname, string memory _lname)public  {
+        patients[msg.sender] = PatientDetails(_fname, _lname, msg.sender);
     }
 
     function withdrawAmount(string memory _currency) public nonReentrant {
