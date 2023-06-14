@@ -19,10 +19,10 @@ const _insertSpecialty = async()=>{
 
 const _insertDoctor = async()=>{
    //const results = await updateDoctor("901969fa-f4bf-4839-bd39-799123b50382","Jordan","Khan","0fb59ff0-15af-4aa5-bdb8-3909196b4993","MD","30 Years","1-868-555-0101","mikhail@telemedic.com","14 Smith Street","Brooklyn","New York","11203","United State",50,"Star",await signer?.getAddress())
-   const result = await queryDoctor("901969fa-f4bf-4839-bd39-799123b50382")
-   console.log(result)
-  //const results = await queryDoctors();
-  //console.log(results)
+   //const result = await queryDoctor("901969fa-f4bf-4839-bd39-799123b50382")
+   //console.log(result)
+  const results = await queryDoctors();
+  console.log(results)
   //await updateDoctorPicture("901969fa-f4bf-4839-bd39-799123b50382","https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcTcvV1vcpgk0JZa2zT4gwxKz6tayysSw3u3ymiiT6brk7AzMOlasLFOAq0BZMQWLYvIBI1auGvLzkzzDPU")
 }
 
@@ -62,8 +62,9 @@ const webinar = async ()=>{
   const starttime = new Date().getTime()
   const endtime = new Date().getTime()  
 //  await insertWebinar("Sleep Therapy","Why you should go to bed early.",starttime,endtime,await signer?.getAddress())
-  const results = await queryWebinar("deefcaf7-c11d-4f97-8565-4899dd65945a")
-   console.log(results)
+ // const results = await queryWebinar("deefcaf7-c11d-4f97-8565-4899dd65945a")
+   const results = await queryWebinars() 
+ console.log(results)
 //await updateWebinarStatus("deefcaf7-c11d-4f97-8565-4899dd65945a",2)
  //  await updateWebinar("deefcaf7-c11d-4f97-8565-4899dd65945a","Sleep Therapy","Why you should go to bed early?",starttime,endtime,1)
 }

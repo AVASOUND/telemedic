@@ -39,9 +39,9 @@ export const querySpecialty = async ( )=>{
   try{
     const records = await specialtyCollection.get();
     let _data:any = []
-    records.data.forEach((record)=>{
-        _data.push(record.data)
-    })
+   for(const index in records.data){
+        _data.push(records.data[index].data)
+    }
      return _data
   }catch(error:any){
     throw Error(error.message)
@@ -121,12 +121,12 @@ export const queryDoctors = async ()=>{
   try{
     const records = await doctorCollection.get();
     let _data:any = []
-    records.data.forEach(async(record)=>{
-        const specialty = await specialtyCollection.record(record.data.specialty.id).get()
-        const doctor = record.data
+   for(const index in records.data){
+        const specialty = await specialtyCollection.record(records.data[index].data.specialty.id).get()
+        const doctor = records.data[index].data
         doctor.specialtyname = specialty?.data.name
         _data.push(doctor)
-    })
+    }
      return _data
   }catch(error:any){
     throw Error(error.message)
@@ -357,11 +357,11 @@ export const queryWebinars = async ()=>{
   try{
     const records = await webinarCollection.get();
     let _data:any = []
-    records.data.forEach(async(record)=>{
+    for(const index in records.data ){
        
        
-        _data.push(record.data)
-    })
+        _data.push(records.data[index].data)
+    }
      return _data
   }catch(error:any){
     throw Error(error.message)
