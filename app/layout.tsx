@@ -19,10 +19,10 @@ import {
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata = {
+/*export const metadata = {
   title: "Telemedic App",
   description: "Created by Replicator Labs",
-};
+};*/
 
 // Configure chains & providers
 // Two popular providers are Alchemy (alchemy.com) and Infura (infura.io)
