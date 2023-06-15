@@ -325,13 +325,13 @@ export const queryAppointmentsForPatient = async (id:string )=>{
 }
 
 
-export const insertWebinar = async (title:string,description:string,starttime:number,endtime:number,owner:string,tokenId:number)=>{
+export const insertWebinar = async (title:string,description:string,starttime:number,endtime:number,owner:string,tokenId:number,roomId:string,image:string)=>{
 
     const  webinarCollection = db.collection("Webinar");
 
     const id = uuidv4()
     try{
-        const recordData = await webinarCollection.create([id,title,description,starttime,endtime,owner,tokenId])
+        const recordData = await webinarCollection.create([id,title,description,starttime,endtime,owner,tokenId,roomId,image])
     }catch(error:any) 
     {
         throw Error(error.message)
@@ -341,13 +341,13 @@ export const insertWebinar = async (title:string,description:string,starttime:nu
 }
 
 
-export const updateWebinar = async (id:string,title:string,description:string,starttime:number,endtime:number,tokenId:number)=>{
+export const updateWebinar = async (id:string,title:string,description:string,starttime:number,endtime:number,tokenId:number,roomId:string,image:string)=>{
 
   const  webinarCollection = db.collection("Webinar");
 
   
   try{
-      const recordData = await webinarCollection.record(id).call("updateWebinar",[title,description,starttime,endtime,tokenId])
+      const recordData = await webinarCollection.record(id).call("updateWebinar",[title,description,starttime,endtime,tokenId,roomId,image])
   }catch(error:any) 
   {
       throw Error(error.message)
@@ -356,6 +356,23 @@ export const updateWebinar = async (id:string,title:string,description:string,st
 
 }
 
+
+
+
+export const updateWebinarImage = async (id:string,image:string)=>{
+
+  const  webinarCollection = db.collection("Webinar");
+
+  
+  try{
+      const recordData = await webinarCollection.record(id).call("setImage",[image])
+  }catch(error:any) 
+  {
+      throw Error(error.message)
+  }
+
+
+}
 export const updateWebinarStatus = async (id:string,status:number)=>{
 
   const  webinarCollection = db.collection("Webinar");
@@ -393,7 +410,8 @@ export const queryWebinars = async ()=>{
     let _data:any = []
     for(const index in records.data ){
        
-       
+      if(records.data[index].data.image)
+
         _data.push(records.data[index].data)
     }
      return _data
@@ -411,7 +429,7 @@ export const queryWebinarsForOwner = async (owner:string)=>{
     let _data:any = []
     for(const index in records.data ){
        
-       
+       if(records.data[index].data.image)
         _data.push(records.data[index].data)
     }
      return _data

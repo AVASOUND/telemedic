@@ -83,7 +83,7 @@ export default function Example() {
   const [patientStats,setPatientStats] = useState([])
   const [doctorStats,setDoctorStats] = useState([])
 
-  const [selectedTab, setSelectedTab] = useState("Overview");
+  const [selectedTab, setSelectedTab] = useState("Doctor");
   const [doctor,setDoctor] = useState()
   const [patient,setPatient] = useState()
   const { data: signer} = useSigner()
@@ -460,7 +460,7 @@ export default function Example() {
                 <PatientAppointmentList patient={patient} stats={patientStatsCallback} />
               </div>}
               {selectedTab == "Webinars" &&<div >
-              <WebinarList />
+              <WebinarList presenter={`${doctor?.firstname} ${doctor?.lastname}`} />
 
               </div>}
               <div hidden={selectedTab != "My Webinars"}>

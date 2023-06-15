@@ -92,7 +92,7 @@ export default function PatientAppointmentList(props) {
               <td className="py-4 pl-4 pr-8 sm:pl-6 lg:pl-8">
                 <div className="flex items-center gap-x-4">
                   <img
-                    src={"profile.jpg"}
+                    src={(item.doctor.picture ? item.doctor.picture  :"profile.jpg")}
                     alt=""
                     className="h-8 w-8 rounded-full bg-gray-800"
                   />

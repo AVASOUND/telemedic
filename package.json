@@ -36,6 +36,7 @@
     "livekit-client": "^1.10.0",
     "next": "13.4.4",
     "next-auth": "^4.19.2",
+    "nft.storage": "^7.1.0",
     "postcss": "8.4.24",
     "react": "18.2.0",
     "react-dom": "18.2.0",

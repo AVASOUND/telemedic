@@ -2,7 +2,7 @@
 import Hero from "../../components/Hero";
 import Team from "../../components/Team";
 import { insertSpecialty,querySpecialty,insertDoctor,queryDoctors,insertPatient,queryPatient,
-  insertAppointment,queryAppointments,updateAppointmentNotes,updateAppointmentStatus,updateDoctorPicture
+  insertAppointment,updateWebinarImage,updateAppointmentNotes,updateAppointmentStatus,updateDoctorPicture
   ,updateDoctor,updatePatient,queryDoctor,insertWebinar,updateWebinar,updateWebinarStatus,queryWebinar,queryWebinars } from "@/mypolybase/polybase";
   import { encryptNotes,decryptNotes } from "@/lit/lit";
   import { useSigner  } from 'wagmi'
@@ -59,14 +59,15 @@ console.log(decryptedString)}
 
 const webinar = async ()=>{
 
-  const starttime = new Date().getTime()
-  const endtime = new Date().getTime()  
+  //const starttime = new Date().getTime()
+  //const endtime = new Date().getTime()  
 //  await insertWebinar("Sleep Therapy","Why you should go to bed early.",starttime,endtime,await signer?.getAddress())
  // const results = await queryWebinar("deefcaf7-c11d-4f97-8565-4899dd65945a")
-   const results = await queryWebinars() 
- console.log(results)
+  // const results = await queryWebinars() 
+ //console.log(results)
 //await updateWebinarStatus("deefcaf7-c11d-4f97-8565-4899dd65945a",2)
  //  await updateWebinar("deefcaf7-c11d-4f97-8565-4899dd65945a","Sleep Therapy","Why you should go to bed early?",starttime,endtime,1)
+ await updateWebinarImage("81abf391-a069-474c-bd5c-b43f0422d4dd","https://bafybeibt7xik2quxj5mzzm43wp5lmgl4jatmq3qwr4hfsrwzjgzvyr2yx4.ipfs.dweb.link/diabetes.jpg")
 }
 
 const lit = async ()=>{

@@ -7,7 +7,11 @@ import { useSigner  } from 'wagmi'
 import {format} from 'date-fns'
 import CreateWebinarDialog from "./CreateWebinar";
 import Notification from "@/components/Notification/Notification";
-
+import { NFTStorage } from "nft.storage";
+import {ethers} from 'ethers'
+import { TokenGateAddress,TokenGateABI } from "../Contracts/Contracts";
+import { insertWebinar } from "@/mypolybase/polybase";
+import { createWebinar as createRoom } from "@/utils/utils";
 const statuses = {
   2: "text-green-400 bg-green-400/10",
   3: "text-rose-400 bg-rose-400/10",
@@ -27,6 +31,10 @@ export default function WebinarList(props) {
     const [webinars,setWebinars] = useState([]) 
     const { data: signer} = useSigner()
     const [openCreateWebinarDialog,setOpenCreateWebinarDialog] = useState(false)
+    const [refreshData,setRefreshData] = useState(new Date())
+    const [nftstorage] = useState(
+      new NFTStorage({ token: process.env.NEXT_PUBLIC_NFT_STORAGE_API_KEY})
+    );
     // NOTIFICATIONS functions
    const [notificationTitle, setNotificationTitle] = useState();
    const [notificationDescription, setNotificationDescription] = useState();
@@ -38,6 +46,7 @@ export default function WebinarList(props) {
 
   
     useEffect(()=>{
+
         async function getWebinars(){
             const results = await  queryWebinarsForOwner(await signer?.getAddress())
             console.log(results)
@@ -57,7 +66,7 @@ export default function WebinarList(props) {
 
      const createWebinar = async(_title,_amount,_starttime,_endtime,_notes,_file)=>{
       
-    
+      
      if(_title == "")
      {
       setDialogType(2) //Error
@@ -104,7 +113,7 @@ export default function WebinarList(props) {
       setShow(true)
       return
      }
-     console.log(_file)
+
      if(_file == null)
      {
       setDialogType(2) //Error
@@ -113,7 +122,81 @@ export default function WebinarList(props) {
       setShow(true)
       return
      }
+     
+
+     let metadata
+     let imageUrl
+     try {
+
+      setDialogType(3) //Info
+      setNotificationTitle("File Uploading")
+      setNotificationDescription("Uploading Image File.")
+      setShow(true)  
+      const objectData = {name:_title, description:_notes,image:_file,_amount:_amount,starttime:_starttime,endtime:_endtime  }
+      metadata = await nftstorage.store(objectData) 
+     //console.log(metadata.data.image.href)
+     const link =metadata.data.image.href
+      imageUrl = link.replace('ipfs://', 'https://').replace(/\/[^/]+$/, (match) => {
+      return match.replace('/', '.ipfs.dweb.link/');
+    });    
+    console.log(imageUrl)
+     setShow(false)
+     }catch(error)
+     {
+       setDialogType(2) //Error
+       setNotificationTitle("Save File")
+       setNotificationDescription("Error Saving File.")
+       setShow(true)
+       return
+     }
+       const tokenGateContract = new ethers.Contract(TokenGateAddress,TokenGateABI,signer)
+       try{
+      
+        let tx  =  await tokenGateContract.callStatic.newWebinar(_title,props.presenter,_starttime.getTime(),"APECOIN",_amount,metadata.url,{
+          gasLimit: 3000000})   
+          
+          let tx1  =  await tokenGateContract.newWebinar(_title,props.presenter,_starttime.getTime(),"APECOIN",_amount,metadata.url,{
+            gasLimit: 3000000})     
+          
+          const receipt = await tx1.wait();
+
+          const event = receipt.events.find((event) => event.event === 'NewWebinar');
+          const tokenId = event.args.webinarId.toNumber();
+          const result = await createRoom()
+ 
+          await insertWebinar(_title,_notes,_starttime.getTime(),_endtime.getTime(),await signer?.getAddress(),tokenId,result.id,imageUrl) 
+          setRefreshData(new Date())
+          setDialogType(1) //Success
+          setNotificationTitle("Create Webinar")
+          setNotificationDescription("Webinar created successfully.")
+          setShow(true)   
+       }catch(error)
+       {
+
+        if (error.code === 'TRANSACTION_REVERTED') {
+          console.log('Transaction reverted');
+          let revertReason = ethers.utils.parseRevertReason(error.data);
+          setNotificationDescription(revertReason);
+        }  else if (error.code === 'ACTION_REJECTED') {
+        setNotificationDescription('Transaction rejected by user');
+      }else {
+       console.log(error)
+       //const errorMessage = ethers.utils.revert(error.reason);
+        setNotificationDescription(`Transaction failed with error: ${error.reason}`);
+      
     }
+        setDialogType(2) //Error
+        setNotificationTitle("Create Webinar")
+    
+        setShow(true)
+    
+    
+      }
+
+       }
+    
+
+  
 
      return (
     <div className="border-t border-white/10 bg-gray-700 pt-11">
@@ -171,7 +254,7 @@ export default function WebinarList(props) {
               <td className="py-4 pl-4 pr-8 sm:pl-6 lg:pl-8">
                 <div className="flex items-center gap-x-4">
                   <img
-                    src={"profile.jpg"}
+                    src={(item.image ? item.image : "profile.jpg")}
                     alt=""
                     className="h-8 w-8 rounded-full bg-gray-800"
                   />
@@ -212,7 +295,7 @@ export default function WebinarList(props) {
           ))}
         </tbody>
       </table>
-      <CreateWebinarDialog open={openCreateWebinarDialog}   setOpen={closeCreateWebinarDialog} createWebinar={createWebinar} />
+      <CreateWebinarDialog open={openCreateWebinarDialog}   setOpen={closeCreateWebinarDialog} createWebinar={createWebinar} refreshData={refreshData} />
       <Notification
         type={dialogType}
         show={show}
