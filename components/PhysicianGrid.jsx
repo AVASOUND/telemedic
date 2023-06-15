@@ -1,4 +1,6 @@
 import { EnvelopeIcon, PhoneIcon } from "@heroicons/react/20/solid";
+import {queryDoctors} from "@/mypolybase/polybase";
+import {useState,useEffect} from 'react'
 import {
   CalendarIcon,
   InformationCircleIcon,
@@ -40,13 +42,23 @@ const people = [
 ];
 
 export default function Example() {
+  const [doctors,setDoctors] = useState([])
+  useEffect(()=>{
+    try {
+          const results = queryDoctors()
+          setDoctors(results)    
+    }catch(error:any)
+    {
+
+    }
+  },[])
   return (
     <div className="w-full flex flex-col items-center bg-white">
       <ul
         role="list"
         className=" w-full flex items-center justify-center flex-col space-y-4"
       >
-        {people.map((person) => (
+        {doctors.map((person) => (
           <li
             key={person.email}
             className="col-span-1 px-4 divide-gray-200 rounded-lg bg-white shadow"
@@ -55,22 +67,22 @@ export default function Example() {
               <div className="flex-1 truncate">
                 <div className="flex items-center space-x-3">
                   <h3 className="truncate text-sm font-medium text-gray-900">
-                    {person.name}
+                    {person.firstname} {person.lastname}
                   </h3>
                   <span className="inline-flex flex-shrink-0 items-center rounded-full bg-green-50 px-1.5 py-0.5 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-                    {person.role}
+                    {person.secialtyname}
                   </span>
                 </div>
                 <p className="mt-1 truncate text-sm text-gray-500">
-                  {person.title}
+                  {person.description}
                 </p>
                 <p className="mt-1 truncate font-bold text-sm text-gray-500">
-                  {person.cost}
+                  {person.fee} APECOIN / Hour
                 </p>
               </div>
               <img
                 className="h-10 w-10 flex-shrink-0 rounded-full bg-gray-300"
-                src={person.imageUrl}
+                src={person?.picture}
                 alt=""
               />
             </div>

@@ -18,18 +18,18 @@ const _insertSpecialty = async()=>{
 }
 
 const _insertDoctor = async()=>{
-   //const results = await updateDoctor("901969fa-f4bf-4839-bd39-799123b50382","Jordan","Khan","0fb59ff0-15af-4aa5-bdb8-3909196b4993","MD","30 Years","1-868-555-0101","mikhail@telemedic.com","14 Smith Street","Brooklyn","New York","11203","United State",50,"Star",await signer?.getAddress())
+   const result = await updateDoctor("901969fa-f4bf-4839-bd39-799123b50382","Dr. Jordan","Kink","0fb59ff0-15af-4aa5-bdb8-3909196b4993","Ultricies massa malesuada viverra cras lobortis. Tempor orci hac ligula dapibus mauris sit ut eu. Eget turpis urna maecenas cras. Nisl dictum.","30 Years","1-868-555-0101","mikhail@telemedic.com","14 Smith Street","Brooklyn","New York","11203","United State",50,"Star",await signer?.getAddress())
    //const result = await queryDoctor("901969fa-f4bf-4839-bd39-799123b50382")
    //console.log(result)
   const results = await queryDoctors();
   console.log(results)
-  //await updateDoctorPicture("901969fa-f4bf-4839-bd39-799123b50382","https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcTcvV1vcpgk0JZa2zT4gwxKz6tayysSw3u3ymiiT6brk7AzMOlasLFOAq0BZMQWLYvIBI1auGvLzkzzDPU")
+ // await updateDoctorPicture("901969fa-f4bf-4839-bd39-799123b50382","https://telemedic.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcoop.2b211598.jpg&w=1080&q=75")
 }
 
 const _insertPatient = async()=>{
     const dob = new Date()
-   const results = await updatePatient("a72e5e2c-5e16-4390-9c97-439d006bef43","Mikhail","Spears","Male",dob.getTime(),"1-868-555-0101"
-   ,"mikhail@telemedic.com","14 Smith Street","Brooklyn","New York","11203","United State","1-868-555-7777")
+   const results = await insertPatient(await signer?.getAddress(),"Leon","Hackett","Male",dob.getTime(),"1-868-555-0101"
+   ,"dominic@telemedic.com","14 Smith Street","Brooklyn","New York","11203","United State","1-868-555-7777")
   // const results = await queryPatient("a72e5e2c-5e16-4390-9c97-439d006bef43");
    //console.log(results)
  }

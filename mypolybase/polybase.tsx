@@ -134,15 +134,15 @@ export const queryDoctors = async ()=>{
    
 }
 
-export const queryDoctor = async (id:string)=>{
+export const queryDoctor = async (address:string)=>{
 
   const doctorCollection = db.collection("Doctor");
   const specialtyCollection = db.collection("Specialty")
   try{
-        const record = await doctorCollection.record(id).get();
-  
-        const specialty = await specialtyCollection.record(record.data.specialty.id).get()
-        const doctor = record.data
+        const record = await doctorCollection.where("ethAddress","==",address).get();
+       console.log(record)
+        const specialty = await specialtyCollection.record(record.data[0].data.specialty.id).get()
+        const doctor = record.data[0].data
         doctor.specialtyname = specialty?.data.name
         return doctor
       }catch(error:any){
@@ -151,7 +151,7 @@ export const queryDoctor = async (id:string)=>{
    
 }
 
-export const insertPatient = async (firstname:string
+export const insertPatient = async (id:string,firstname:string
   ,lastname:string
   
   ,gender:string
@@ -165,7 +165,7 @@ export const insertPatient = async (firstname:string
 
     const  patientCollection = db.collection("Patient");
 
-    const id = uuidv4()
+    
     try{
         const recordData = await patientCollection.create([id,firstname,lastname
           ,gender
@@ -261,7 +261,7 @@ export const updateAppointmentStatus = async(id:string,status:number) =>{
 
 }
 
-export const queryAppointments = async ( )=>{
+export const queryAppointmentsForDoctor = async (id:string )=>{
   const appointmentCollection = db.collection("Appointment")
   const doctorCollection = db.collection("Doctor");
   const patientCollection = db.collection("Patient");
@@ -271,17 +271,51 @@ export const queryAppointments = async ( )=>{
     const records = await appointmentCollection.get();
     let _data:any = []
     for(const index in records.data){
-      const appointment = records.data[index].data
+        const appointment = records.data[index].data
+        if(appointment.doctor.id==id)   
+        {
+           const doctor = await doctorCollection.record(appointment.doctor.id).get() 
+           console.log(doctor)
+           const specialty = await specialtyCollection.record(doctor.data.specialty.id).get()
+           appointment.doctor = doctor.data
+           const patient = await patientCollection.record(appointment.patient.id).get() 
+           console.log(patient)
+           appointment.patient  = patient.data
+           appointment.doctor.specialtyname = specialty?.data.name
+          _data.push(appointment)
+        } 
+    }
+     return _data
+  }catch(error:any){
+    throw Error(error.message)
+  } 
+   
+}
 
-        const doctor = await doctorCollection.record(appointment.doctor.id).get() 
-        console.log(doctor)
-        const specialty = await specialtyCollection.record(doctor.data.specialty.id).get()
-        appointment.doctor = doctor.data
-        const patient = await patientCollection.record(appointment.patient.id).get() 
-        console.log(patient)
-        appointment.patient  = patient.data
-        appointment.doctor.specialtyname = specialty?.data.name
-        _data.push(appointment)
+
+export const queryAppointmentsForPatient = async (id:string )=>{
+  const appointmentCollection = db.collection("Appointment")
+  const doctorCollection = db.collection("Doctor");
+  const patientCollection = db.collection("Patient");
+
+   const specialtyCollection = db.collection("Specialty")
+  try{
+    const records = await appointmentCollection.get();
+    let _data:any = []
+    for(const index in records.data){
+        const appointment = records.data[index].data
+        if(appointment.patient.id==id)   
+        {
+           const doctor = await doctorCollection.record(appointment.doctor.id).get() 
+           console.log(doctor)
+           const specialty = await specialtyCollection.record(doctor.data.specialty.id).get()
+           appointment.doctor = doctor.data
+           const patient = await patientCollection.record(appointment.patient.id).get() 
+           console.log(patient)
+           appointment.patient  = patient.data
+           appointment.doctor.specialtyname = specialty?.data.name
+          _data.push(appointment)
+        } 
     }
      return _data
   }catch(error:any){
@@ -356,6 +390,24 @@ export const queryWebinars = async ()=>{
   const webinarCollection = db.collection("Webinar");
   try{
     const records = await webinarCollection.get();
+    let _data:any = []
+    for(const index in records.data ){
+       
+       
+        _data.push(records.data[index].data)
+    }
+     return _data
+  }catch(error:any){
+    throw Error(error.message)
+  } 
+   
+}
+
+export const queryWebinarsForOwner = async (owner:string)=>{
+
+  const webinarCollection = db.collection("Webinar");
+  try{
+    const records = await webinarCollection.where("owner","==",owner).get();
     let _data:any = []
     for(const index in records.data ){
        
