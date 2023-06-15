@@ -69,7 +69,7 @@ export default function Example() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="bg-white shadwow-3xl w-full">
+    <header className="bg-white px-4 shadwow-3xl w-full">
       <div
         className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
         aria-hidden="true"
@@ -107,7 +107,10 @@ export default function Example() {
           </button>
         </div>
         <Popover.Group className="hidden lg:flex lg:gap-x-12">
-          <a href="/" className="text-sm font-semibold leading-6 text-gray-900">
+          <a
+            href="/"
+            className="text-sm pl-4 font-semibold leading-6 text-gray-900"
+          >
             Home
           </a>
           <a
