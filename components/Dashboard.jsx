@@ -15,10 +15,10 @@ import coop from "../public/coop.jpg";
 import kink from "../public/kink.jpg";
 import ActivityList from "../components/dashboard/ActivityList";
 import DocumentList from "../components/dashboard/DocumentList";
-import DoctorAppointmentList from '../components/dashboard/DoctorAppointmentList'
-import PatientAppointmentList from '../components/dashboard/PatientAppointmentList'
-import WebinarList from '../components/dashboard/WebinarList'
-import { useSigner  } from 'wagmi'
+import DoctorAppointmentList from "../components/dashboard/DoctorAppointmentList";
+import PatientAppointmentList from "../components/dashboard/PatientAppointmentList";
+import WebinarList from "../components/dashboard/WebinarList";
+import { useSigner } from "wagmi";
 
 const navigation = [
   { name: "Projects", href: "#", icon: FolderIcon, current: false },
@@ -29,10 +29,10 @@ const navigation = [
   { name: "Settings", href: "#", icon: Cog6ToothIcon, current: false },
 ];
 const teams = [
-  { id: 1, name: "Doctor", href: "#", initial: "O", current: false },
-  { id: 2, name: "Patient", href: "#", initial: "A", current: false },
-  { id: 3, name: "Webinars", href: "#", initial: "D", current: false },
-  { id: 4, name: "My Webinars", href: "#", initial: "P", current: false },
+  { id: 1, name: "Doctor", href: "#", initial: "+", current: false },
+  { id: 2, name: "Patient", href: "#", initial: "+", current: false },
+  { id: 3, name: "Webinars", href: "#", initial: "+", current: false },
+  // { id: 4, name: "My Webinars", href: "#", initial: "+", current: false },
 ];
 
 const stats = [
@@ -72,68 +72,64 @@ const activityItems = [
   },
   // More items...
 ];
-import { useEffect,useState } from "react";
-import { queryPatient,queryDoctor } from "@/mypolybase/polybase";
+import { useEffect, useState } from "react";
+import { queryPatient, queryDoctor } from "@/mypolybase/polybase";
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function Example() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [patientStats,setPatientStats] = useState([])
-  const [doctorStats,setDoctorStats] = useState([])
+  const [patientStats, setPatientStats] = useState([]);
+  const [doctorStats, setDoctorStats] = useState([]);
 
+<<<<<<< HEAD
   const [selectedTab, setSelectedTab] = useState("Doctor");
   const [doctor,setDoctor] = useState()
   const [patient,setPatient] = useState()
   const { data: signer} = useSigner()
+=======
+  const [selectedTab, setSelectedTab] = useState("Overview");
+  const [doctor, setDoctor] = useState();
+  const [patient, setPatient] = useState();
+  const { data: signer } = useSigner();
+>>>>>>> f22eeb150fb302429d54a371a6a4c879b7133676
 
-  const doctorStatsCallback = (_stats)=>{
-     setDoctorStats(_stats)
-  } 
+  const doctorStatsCallback = (_stats) => {
+    setDoctorStats(_stats);
+  };
 
-  const patientStatsCallback = (_stats)=>{
-    setPatientStats(_stats)
- } 
+  const patientStatsCallback = (_stats) => {
+    setPatientStats(_stats);
+  };
 
-  useEffect(()=>{
-    
-    async function getPatient()
-    {
-    try {
-          const result = await queryPatient(await signer.getAddress())
-          setPatient(result)  
-          console.log(result)  
-    }catch(error)
-    {
-            console.log(error)
+  useEffect(() => {
+    async function getPatient() {
+      try {
+        const result = await queryPatient(await signer.getAddress());
+        setPatient(result);
+        console.log(result);
+      } catch (error) {
+        console.log(error);
+      }
     }
-  }
-   
-  if(signer)
-     getPatient() 
-  
-  },[signer])     
 
-  
-  useEffect(()=>{
-    
-    async function getDoctor()
-    {
-    try {
-          const result = await queryDoctor(await signer.getAddress())
-          setDoctor(result)  
-          console.log(result)  
-    }catch(error)
-    {
-            console.log(error)
+    if (signer) getPatient();
+  }, [signer]);
+
+  useEffect(() => {
+    async function getDoctor() {
+      try {
+        const result = await queryDoctor(await signer.getAddress());
+        setDoctor(result);
+        console.log(result);
+      } catch (error) {
+        console.log(error);
+      }
     }
-  }
-   
-  if(signer)
-    getDoctor() 
-  
-  },[signer])     
+
+    if (signer) getDoctor();
+  }, [signer]);
   return (
     <>
       <div className="w-full">
@@ -422,9 +418,14 @@ export default function Example() {
                   ))}
                 </div>
               </div>
-              {selectedTab == "Doctor" && <div>
-                <DoctorAppointmentList doctor={doctor} stats={doctorStatsCallback} />
-              </div>}
+              {selectedTab == "Doctor" && (
+                <div>
+                  <DoctorAppointmentList
+                    doctor={doctor}
+                    stats={doctorStatsCallback}
+                  />
+                </div>
+              )}
               <div hidden={selectedTab != "Patient"}>
                 <div className="grid grid-cols-1 bg-gray-700 sm:grid-cols-2 lg:grid-cols-4">
                   {patientStats.map((stat, statIdx) => (

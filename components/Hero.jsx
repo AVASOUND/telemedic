@@ -4,10 +4,13 @@ import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import landingSC from "../public/landingSC.png";
+import Image from "next/image";
 const navigation = [
   { name: "Meet a doctor", href: "/meetadoc" },
   { name: "Dashboard", href: "/dashboard" },
   { name: "More", href: "/more" },
+  { name: "Webinars", href: "/webinar" },
   { name: "FAQ", href: "/learnmore" },
 ];
 
@@ -21,7 +24,7 @@ export default function Example() {
           className="flex items-center justify-between p-6 lg:px-8"
           aria-label="Global"
         >
-          <div className="flex lg:flex-1">
+          {/* <div className="flex lg:flex-1">
             <a href="#" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
               <img
@@ -30,7 +33,7 @@ export default function Example() {
                 alt=""
               />
             </a>
-          </div>
+          </div> */}
           <div className="flex lg:hidden">
             <button
               type="button"
@@ -129,7 +132,7 @@ export default function Example() {
               </p>
               <div className="mt-10 flex items-center justify-center gap-x-6">
                 <a
-                  href="#"
+                  href="/meetadoc"
                   className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                   Meet a doctor
@@ -138,8 +141,8 @@ export default function Example() {
             </div>
             <div className="mt-16 flow-root sm:mt-24">
               <div className="-m-2 rounded-xl bg-gray-900/5 p-2 ring-1 ring-inset ring-gray-900/10 lg:-m-4 lg:rounded-2xl lg:p-4">
-                <img
-                  src="https://tailwindui.com/img/component-images/project-app-screenshot.png"
+                <Image
+                  src={landingSC}
                   alt="App screenshot"
                   width={2432}
                   height={1442}
