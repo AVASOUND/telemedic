@@ -69,7 +69,7 @@ export default function Example() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="bg-white z-50 shadwow-3xl w-full">
+    <header className="bg-white shadwow-3xl w-full">
       <div
         className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
         aria-hidden="true"
