@@ -4,10 +4,13 @@ import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import landingSC from "../public/landingSC.png";
+import Image from "next/image";
 const navigation = [
   { name: "Meet a doctor", href: "/meetadoc" },
   { name: "Dashboard", href: "/dashboard" },
   { name: "More", href: "/more" },
+  { name: "Webinars", href: "/webinar" },
   { name: "FAQ", href: "/learnmore" },
 ];
 
@@ -138,8 +141,8 @@ export default function Example() {
             </div>
             <div className="mt-16 flow-root sm:mt-24">
               <div className="-m-2 rounded-xl bg-gray-900/5 p-2 ring-1 ring-inset ring-gray-900/10 lg:-m-4 lg:rounded-2xl lg:p-4">
-                <img
-                  src="https://tailwindui.com/img/component-images/project-app-screenshot.png"
+                <Image
+                  src={landingSC}
                   alt="App screenshot"
                   width={2432}
                   height={1442}
