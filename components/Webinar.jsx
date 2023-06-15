@@ -38,7 +38,7 @@ export default function Webinar() {
   };
 
   return (
-    <div className="bg-white py-16 w-full">
+    <div className="bg-white py-12 w-full">
       {/* <div
         className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
         aria-hidden="true"

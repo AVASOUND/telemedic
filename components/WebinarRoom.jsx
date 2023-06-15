@@ -44,7 +44,7 @@ export default function Webinar() {
   }
 
   return (
-    <div className="bg-white py-16 w-full">
+    <div className="bg-white py-12 w-full">
       <div className="mx-auto max-w px-6 text-center lg:px-8">
         <div className="mx-auto max-w-2xl">
           <h2 className="text-2xl font-bold leading-10 tracking-tight text-gray-900">
@@ -52,15 +52,17 @@ export default function Webinar() {
           </h2>
 
           {/*  INSERT ROOM # fetched from video provider */}
-          <p className="mt-4 text-base leading-7 text-gray-600">
+          <p className="my-4 text-base leading-7 text-gray-600">
             ROOM # [INSERT ROOM]
           </p>
 
-          <p className="mt-4 mb-16 text-base leading-7 text-gray-600">
-            Placeholder for iframe below (delete this p element)
-          </p>
           {/* P L A C E H O L D E R FOR IFRAME */}
           <div className=" rounded-xl bg-gray-900/5 p-2 ring-1 ring-inset ring-gray-900/10 lg:rounded-2xl lg:p-4">
+            <p className="my-2 text-base leading-7 text-gray-600">
+              Placeholder for iframe below
+            </p>
+
+            {/*  replace image tag with iframe */}
             <Image
               src={landingSC}
               alt="App screenshot"
