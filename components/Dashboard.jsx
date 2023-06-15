@@ -32,7 +32,7 @@ const teams = [
   { id: 1, name: "Doctor", href: "#", initial: "+", current: false },
   { id: 2, name: "Patient", href: "#", initial: "+", current: false },
   { id: 3, name: "Webinars", href: "#", initial: "+", current: false },
-  { id: 4, name: "My Webinars", href: "#", initial: "+", current: false },
+  // { id: 4, name: "My Webinars", href: "#", initial: "+", current: false },
 ];
 
 const stats = [

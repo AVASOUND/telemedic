@@ -9,11 +9,11 @@ const activityItems = [
       img: kink,
     },
     commit: "2d89f0c8",
-    branch: "general",
+    branch: "webinar",
     status: "Download",
     duration: "20min",
-    date: "45 minutes ago",
-    dateTime: "2023-01-23T11:00",
+    // date: "45 minutes ago",
+    date: "2023-01-23 - 3:00 PM",
   },
   {
     user: {
@@ -21,11 +21,11 @@ const activityItems = [
       img: coop,
     },
     commit: "2d89f108",
-    branch: "dental",
+    branch: "webinar",
     status: "Download",
     duration: "30min",
-    date: "3 days ago",
-    dateTime: "2023-01-23T11:00",
+    // date: "3 days ago",
+    date: "2023-01-23 - 11:00 AM",
   },
   // More items...
 ];
@@ -59,19 +59,19 @@ export default function DocumentList() {
               scope="col"
               className="py-2 pl-4 pr-8 font-semibold sm:pl-6 lg:pl-8"
             >
-              Client
+              Host
             </th>
             <th
               scope="col"
               className="hidden py-2 pl-0 pr-8 font-semibold sm:table-cell"
             >
-              Appointment #
+              Room
             </th>
             <th
               scope="col"
               className="py-2 pl-0 pr-4 text-right font-semibold sm:pr-8 sm:text-left lg:pr-20"
             >
-              Files
+              Link
             </th>
             <th
               scope="col"
@@ -83,7 +83,7 @@ export default function DocumentList() {
               scope="col"
               className="hidden py-2 pl-0 pr-4 text-right font-semibold sm:table-cell sm:pr-6 lg:pr-8"
             >
-              Deployed at
+              Date & Time
             </th>
           </tr>
         </thead>

@@ -39,8 +39,8 @@ export default function Webinar() {
     }
   };
 
-  function backToWebinars() {
-    router.push("/webinar");
+  function backToPrev() {
+    router.push("/dashboard");
   }
 
   return (
@@ -83,9 +83,9 @@ export default function Webinar() {
             <button
               type="button"
               className=" m-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 "
-              onClick={backToWebinars}
+              onClick={backToPrev}
             >
-              Leave Webinar
+              Leave Consultation
             </button>
             {/* 
             <button
@@ -95,6 +95,22 @@ export default function Webinar() {
             >
               Join Webinar
             </button> */}
+          </div>
+
+          <div className="relative">
+            <label
+              htmlFor="name"
+              className="absolute -top-2 left-2 inline-block bg-white px-1 text-xs font-medium text-gray-900"
+            >
+              Notes
+            </label>
+            <textarea
+              type="text"
+              name="notes"
+              id="notes"
+              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              //   placeholder="Notes"
+            />
           </div>
           {pToken && (
             <LiveKitRoom
