@@ -1,0 +1,401 @@
+//Telemedic
+//Polybase Database
+//Author: Dominic Hackett
+//Date:  12/06/2023
+//Description:  HACKFS 2023 Ethglobal
+
+@public
+collection Specialty {
+  // `id` is unique and required on all collections
+  id: string;
+
+  // We will use a public key to authenticate function
+  // calls later
+  publicKey: PublicKey;
+  name:  string;
+  description:string;
+
+  constructor (id: string,name:string,description:string) {
+    // `this.id` must be assigned in the constructor
+    // `this.id` must be unique in collection
+    this.id = id;
+    this.name = name;
+    this.description = description;
+    
+    // You can assign the publicKey of the user who is
+    // creating the record, this can then be used to
+    // control permissions for the record (see below)
+    this.publicKey = ctx.publicKey;
+  }
+
+  // You can add your own functions to determine rules
+  // on who can update the records data
+  function updateSpecialty (name: string,description:string) {
+    // Check if the caller is the original creator of the record.
+    if (ctx.publicKey != this.publicKey) {
+      error('You are not the creator of this record.');
+    }
+    this.name = name;
+    this.description = description;
+  }
+
+del () {
+    if (ctx.publicKey != this.publicKey) {
+      throw error();
+    }
+    selfdestruct();
+  }
+  
+}
+
+
+@public
+collection Doctor {
+  // `id` is unique and required on all collections
+  id: string;
+
+  // We will use a public key to authenticate function
+  // calls later
+  @delegate
+  publicKey: PublicKey;
+  firstname:string;
+  lastname:string; 
+  specialty:Specialty ;
+  qualifications:string;
+experience:string;
+phone:string;
+email:string;
+street:string;
+city:string;
+state :string;
+zip :string;
+country:string;
+fee : number;
+profile:string;
+picture?:string;  
+ethAddress:string;  
+  constructor (id:string,firstname:string
+               ,lastname:string
+               ,specialty:Specialty
+               ,qualifications:string
+               ,experience:string
+               ,phone:string
+               ,email:string
+               ,street:string
+               ,city:string
+               ,state:string
+               ,zip:string,country:string,fee:number,profile:string,ethAddress:string) {
+    
+    this.id = id;
+    this.firstname = firstname;
+    this.lastname = lastname;
+    this.specialty  = specialty;
+    this.qualifications = qualifications;
+    this.experience = experience;
+
+    this.phone = phone;
+    this.email = email;
+    this.street = street;
+    this.city = city;
+    this.state= state;
+    this.zip= zip;
+    this.country = country;
+    this.fee = fee;
+    this.profile = profile;
+    this.ethAddress = ethAddress;
+    
+    
+    // You can assign the publicKey of the user who is
+    // creating the record, this can then be used to
+    // control permissions for the record (see below)
+    this.publicKey = ctx.publicKey;
+  }
+
+  // You can add your own functions to determine rules
+  // on who can update the records data
+  function updateDoctor (firstname:string,lastname:string,specialty:Specialty,qualifications:string,experience:string,phone:string,email:string,street:string
+              ,city:string,state:string,zip:string,country:string,fee:number,profile:string,ethAddress:string) 
+     {
+    // Check if the caller is the original creator of the record.
+    if (ctx.publicKey != this.publicKey) {
+      error('You are not the creator of this record.');
+    }
+       this.firstname = firstname;
+    this.lastname = lastname;
+    this.specialty  = specialty;
+    this.qualifications = qualifications;
+    this.experience = experience;
+    this.phone = phone;
+    this.email = email;
+    this.street = street;
+    this.city = city;
+    this.state= state;
+    this.zip= zip;
+    this.country = country;
+    this.fee = fee;
+    this.profile = profile;
+    this.ethAddress = ethAddress;
+    
+   
+}
+   function setPicture(picture:string) {
+    if (ctx.publicKey != this.publicKey) {
+      throw error();
+    }
+      this.picture = picture;
+   }
+   del () {
+    if (ctx.publicKey != this.publicKey) {
+      throw error();
+    }
+    selfdestruct();
+  }
+  
+  }
+
+
+@public
+collection Appointment {
+  // `id` is unique and required on all collections
+  id: string;
+
+  // We will use a public key to authenticate function
+  // calls later
+  @read
+  publicKey: PublicKey;
+  date:number;
+  @delegate
+  doctor:Doctor;
+  patient:Patient;
+  reason:string;
+  status:number;
+  roomId:string;
+  notes?:bytes;
+  encryptedSymmetricKey?:string;
+  constructor (id: string,date:number,doctor:Doctor,patient:Patient
+               ,reason:string,status:number,roomId:string) {
+    // `this.id` must be assigned in the constructor
+    // `this.id` must be unique in collection
+    this.id = id;
+    this.date = date;
+    this.doctor = doctor;
+    this.patient = patient;
+    this.reason = reason;
+    this.status = status;
+    this.roomId = roomId;
+    
+    // You can assign the publicKey of the user who is
+    // creating the record, this can then be used to
+    // control permissions for the record (see below)
+    this.publicKey = ctx.publicKey;
+  }
+
+  // You can add your own functions to determine rules
+  // on who can update the records data
+  @call(doctor)
+  function updateAppointment (date:number,doctor:Doctor,patient:Patient
+               ,reason:string,status:number,roomId:string) {
+    // Check if the caller is the original creator of the record.
+    if (ctx.publicKey != this.publicKey) {
+      error('You are not the creator of this record.');
+    }
+    this.date = date;
+    this.doctor = doctor;
+    this.patient = patient;
+    this.reason = reason;
+    this.status = status;
+    this.roomId = roomId;
+    
+  }
+
+   @call(doctor)
+  function updateNotes(notes:bytes,encryptedSymmetricKey:string){
+    this.notes = notes;
+    this.encryptedSymmetricKey = encryptedSymmetricKey;
+  }
+
+  @call(doctor)
+  function setStatus(status:number){
+    this.status = status;
+  }
+}
+
+
+@public
+collection Webinar {
+  // `id` is unique and required on all collections
+  id: string;
+
+  // We will use a public key to authenticate function
+  // calls later
+  publicKey: PublicKey;
+  title:  string;
+  description:string;
+  starttime:number;
+  endtime:number;
+  status:number;
+  owner:string;
+  tokenId:number;
+  roomId:string;
+  image:string;
+  fee:number;
+  
+  constructor (id: string,title:string,description:string,starttime:number,endtime:number,owner:string,tokenId:number,roomId:string,image:string,fee:number) {
+    // `this.id` must be assigned in the constructor
+    // `this.id` must be unique in collection
+    this.id = id;
+    this.title = title;
+    this.description = description;
+    this.starttime = starttime;
+    this.endtime = endtime;
+    this.status = 1;
+    this.owner = owner;
+    this.tokenId = tokenId;
+    this.roomId = roomId;
+    this.image = image;
+    this.fee=fee;
+    
+    // You can assign the publicKey of the user who is
+    // creating the record, this can then be used to
+    // control permissions for the record (see below)
+    this.publicKey = ctx.publicKey;
+  }
+
+  // You can add your own functions to determine rules
+  // on who can update the records data 
+  
+ @call(publicKey)
+  function updateWebinar (title:string,description:string,starttime:number,endtime:number,tokenId:number,roomId:string,image:string,fee:number) {
+    // Check if the caller is the original creator of the record.
+    if (ctx.publicKey != this.publicKey) {
+      error('You are not the creator of this record.');
+    }
+    this.title = title;
+    this.description = description;
+    this.starttime = starttime;
+    this.endtime = endtime;
+    this.tokenId = tokenId;
+    this.roomId = roomId;
+   this.image = image;
+   this.fee = fee;
+
+  }
+
+    @call(publicKey)
+  function setStatus(status:number){
+    this.status = status;
+  }
+
+    @call(publicKey)
+  function setImage(image:string){
+    this.image = image;
+  }
+
+   @call(publicKey)
+  function setFee(fee:number){
+    this.fee = fee;
+  }
+
+  del () {
+    if (ctx.publicKey != this.publicKey) {
+      throw error();
+    }
+    selfdestruct();
+  }
+}
+
+@read
+collection Patient {
+  // `id` is unique and required on all collections
+  id: string;
+
+  // We will use a public key to authenticate function
+  // calls later
+  @read
+  publicKey: PublicKey;
+  firstname:string;
+  lastname:string;
+  gender:string;
+  dob:number;
+  phone:string;
+  email:string;
+  street:string;
+  city:string;
+  state :string;
+  zip :string;
+  country:string;
+  emergencyContact:string;
+  
+  constructor (id:string,firstname:string
+               ,lastname:string
+               
+               ,gender:string
+               ,dob:number
+               ,phone:string
+               ,email:string
+               ,street:string
+               ,city:string
+               ,state:string
+               ,zip:string,country:string,emergencyContact:string) {
+    
+    this.id = id;
+    this.firstname = firstname;
+    this.lastname = lastname;
+    
+    this.gender = gender;
+    this.dob =dob;
+    this.phone = phone;
+    this.email = email;
+    this.street = street;
+    this.city = city;
+    this.state= state;
+    this.zip= zip;
+    this.country = country;
+    this.emergencyContact = emergencyContact;
+    
+    
+    // You can assign the publicKey of the user who is
+    // creating the record, this can then be used to
+    // control permissions for the record (see below)
+    
+    this.publicKey = ctx.publicKey;
+  }
+
+  // You can add your own functions to determine rules
+  // on who can update the records data
+  @call(publicKey)
+  function updatePatient (firstname:string
+               ,lastname:string
+               
+               ,gender:string
+               ,dob:number
+               ,phone:string
+               ,email:string
+               ,street:string
+               ,city:string
+               ,state:string
+               ,zip:string,country:string,emergencyContact:string) 
+     {
+    // Check if the caller is the original creator of the record.
+    if (ctx.publicKey != this.publicKey) {
+      error('You are not the creator of this record.');
+    }
+    this.firstname = firstname;
+    this.lastname = lastname;
+    
+    this.gender = gender;
+    this.dob =dob;
+    this.phone = phone;
+    this.email = email;
+    this.street = street;
+    this.city = city;
+    this.state= state;
+    this.zip= zip;
+    this.country = country;
+    this.emergencyContact = emergencyContact;
+    
+   
+}
+
+  }
+

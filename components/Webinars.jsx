@@ -180,7 +180,7 @@ export default function Example() {
                 <p className="text-base leading-7 text-gray-800">
                   {webinar.fee} APECOIN
                 </p>
-                <p className="mt-6 text-base leading-7 text-gray-600">
+                <p className="mt-6 text-base leading-7 text-gray-600 line-clamp-6">
                   {webinar.description}
                 </p>
                 <ul role="list" className="mt-6 flex gap-x-6">

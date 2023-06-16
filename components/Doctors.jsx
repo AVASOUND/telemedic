@@ -250,7 +250,7 @@ export default function Example() {
                 <p className="text-base leading-7 text-gray-800">
                   {person.fee} APECOIN / Hour
                 </p>
-                <p className="mt-6 text-base leading-7 text-gray-600">
+                <p className="mt-6 text-base leading-7 text-gray-600 line-clamp-4 ">
                   {person.qualifications}
                 </p>
                 <ul role="list" className="mt-6 flex gap-x-6">
