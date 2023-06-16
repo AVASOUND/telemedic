@@ -9,8 +9,7 @@ import Image from "next/image";
 const navigation = [
   { name: "Meet a doctor", href: "/meetadoc" },
   { name: "Dashboard", href: "/dashboard" },
-  { name: "More", href: "/more" },
-  { name: "Webinars", href: "/webinar" },
+  { name: "Webinars", href: "/webinars" },
   { name: "FAQ", href: "/learnmore" },
 ];
 

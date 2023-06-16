@@ -1,4 +1,4 @@
-import Doctors from "../../components/Doctors";
+import Webinars from "../../components/Webinars";
 import Header from "../../components/Header";
 
 export default function learnmore() {
@@ -6,7 +6,7 @@ export default function learnmore() {
     <main className="flex min-h-screen text-black flex-col w-full bg-white items-center">
       <Header />
 
-      <Doctors />
+      <Webinars />
     </main>
   );
 }

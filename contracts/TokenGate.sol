@@ -42,6 +42,15 @@ contract TokenGate is Ownable , ReentrancyGuard, ERC721Holder {
     mapping( uint => WebinarDetails) public webinars;
     mapping( address => mapping( string => uint)) public balance;
 
+    event NewWebinar (
+        uint indexed webinarId,
+         string topic,
+        string presenter,
+        uint time,
+        string currency,
+        uint cost
+    );
+
     function addPatientRecordTokenAddress (address _contractAddress) public onlyOwner {
         PRT = PatientRecord(_contractAddress);
     }
@@ -75,13 +84,20 @@ contract TokenGate is Ownable , ReentrancyGuard, ERC721Holder {
         RAT.mint(_to, _tokenId, 1, '0x00');
     }
 
-    function newWebinar(string memory _topic, string memory _presenter, uint _time, string memory _currency, uint _amount, string memory uri ) public returns(uint) {
+    function newWebinar(string memory _topic, string memory _presenter, uint _time, string memory _currency, uint _amount, string memory uri ) public{
         
         webinarId++;
         webinars[webinarId] = WebinarDetails( _topic, _presenter, _time, _currency, _amount);
         PRT.safeMint(address(this), webinarId, uri);
 
-        return webinarId;
+        emit NewWebinar (
+        webinarId,
+         _topic,
+        _presenter,
+        _time,
+        _currency,
+        _amount
+    );
 
     }
 

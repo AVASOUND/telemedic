@@ -889,7 +889,7 @@ export const ApeCoinABI = [
 		"type": "function"
 	}
 ]
-export const PRTAddress = ' 0x61672fF649E2958A20C960edACbefE99b585A0D1'
+export const PRTAddress = '0x61672fF649E2958A20C960edACbefE99b585A0D1'
 export const RATAddress = '0xd71FaF97dd6655D59C2B183f7F17326aCe0fAAc3'
 
 export const TokenGateAddress = '0xAe75ba263a0ed10ebAe7eb83Afd5DE820b47E6A0'

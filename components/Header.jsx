@@ -126,17 +126,12 @@ export default function Example() {
             Dashboard
           </a>
           <a
-            href="/webinar"
+            href="/webinars"
             className="text-sm font-semibold leading-6 text-gray-900"
           >
-            Webinar
+            Webinars
           </a>
-          <a
-            href="/appointment/2334"
-            className="text-sm font-semibold leading-6 text-gray-900"
-          >
-            [ Appointment ]
-          </a>
+         
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <ConnectButton />
@@ -178,10 +173,10 @@ export default function Example() {
                   Home
                 </a>
                 <a
-                  href="/webinar"
+                  href="/webinars"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
-                  Webinar
+                  Webinars
                 </a>
                 <a
                   href="/learnmore"

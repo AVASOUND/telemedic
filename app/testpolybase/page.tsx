@@ -1,8 +1,8 @@
 'use client'
 import Hero from "../../components/Hero";
 import Team from "../../components/Team";
-import { insertSpecialty,querySpecialty,insertDoctor,queryDoctors,insertPatient,queryPatient,
-  insertAppointment,updateWebinarImage,updateAppointmentNotes,updateAppointmentStatus,updateDoctorPicture
+import {deleteWebinar, insertSpecialty,querySpecialty,insertDoctor,queryDoctors,insertPatient,queryPatient,
+  insertAppointment,updateWebinarImage,updateAppointmentNotes,updateAppointmentStatus,updateDoctorPicture,updateWebinarFee
   ,updateDoctor,updatePatient,queryDoctor,insertWebinar,updateWebinar,updateWebinarStatus,queryWebinar,queryWebinars } from "@/mypolybase/polybase";
   import { encryptNotes,decryptNotes } from "@/lit/lit";
   import { useSigner  } from 'wagmi'
@@ -18,18 +18,24 @@ const _insertSpecialty = async()=>{
 }
 
 const _insertDoctor = async()=>{
-   const result = await updateDoctor("901969fa-f4bf-4839-bd39-799123b50382","Dr. Jordan","Kink","0fb59ff0-15af-4aa5-bdb8-3909196b4993","Ultricies massa malesuada viverra cras lobortis. Tempor orci hac ligula dapibus mauris sit ut eu. Eget turpis urna maecenas cras. Nisl dictum.","30 Years","1-868-555-0101","mikhail@telemedic.com","14 Smith Street","Brooklyn","New York","11203","United State",50,"Star",await signer?.getAddress())
+   //const result = await updateDoctor("901969fa-f4bf-4839-bd39-799123b50382","Dr. Jordan","Kink","0fb59ff0-15af-4aa5-bdb8-3909196b4993","Ultricies massa malesuada viverra cras lobortis. Tempor orci hac ligula dapibus mauris sit ut eu. Eget turpis urna maecenas cras. Nisl dictum.","30 Years","1-868-555-0101","mikhail@telemedic.com","14 Smith Street","Brooklyn","New York","11203","United State",50,"Star",await signer?.getAddress())
    //const result = await queryDoctor("901969fa-f4bf-4839-bd39-799123b50382")
    //console.log(result)
-  const results = await queryDoctors();
-  console.log(results)
- // await updateDoctorPicture("901969fa-f4bf-4839-bd39-799123b50382","https://telemedic.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcoop.2b211598.jpg&w=1080&q=75")
+  //const results = await queryDoctors();
+  ///console.log(results)
+ await updateDoctorPicture("29c31046-ed5c-41d2-a015-c12e174e6f91","https://telemedic.vercel.app/kink.jpg")
+
+ //await insertDoctor("Dr. Patrick","Bob","1160e328-0cad-4a05-a87d-968886ac2cc4","A gynecologist is a medical specialist who focuses on the health and well-being of the female reproductive system. They provide comprehensive care for women, addressing a wide range of reproductive health concerns from adolescence through adulthood. Gynecologists are knowledgeable about various aspects of women's health, including menstruation, contraception, fertility, pregnancy, childbirth, and menopause. They perform routine examinations, screenings, and tests to detect and manage conditions such as cervical cancer, ovarian disorders, sexually transmitted infections (STIs), and hormonal imbalances. Gynecologists also provide guidance and support for family planning, prenatal care, and women's overall reproductive health. With their expertise and compassionate care, gynecologists play a crucial role in empowering women to make informed decisions and maintain optimal reproductive health throughout their lives.","15 Years","1-868-555-0301","patrick@telemedic.com","921 10 Avenue","New York","New York","11113","United States",60,"Star","0x7F36cba7Da4F7915bf5775cBF91f08F2F8f7b67a")
+   
+
 }
 
 const _insertPatient = async()=>{
     const dob = new Date()
-   const results = await insertPatient(await signer?.getAddress(),"Leon","Hackett","Male",dob.getTime(),"1-868-555-0101"
-   ,"dominic@telemedic.com","14 Smith Street","Brooklyn","New York","11203","United State","1-868-555-7777")
+   const results = await insertPatient("0xFE5dBbF91b0CD48A8eB8f039F0CD7cB281990071","Felix","Prabitz","Male",dob.getTime(),"+43 123 456 789"
+   ,"felix@prabitz.com","Musterstraße 123","Wien","Vienna","1010","Austria","+43 123 456 789")
+   await insertPatient("0x7F36cba7Da4F7915bf5775cBF91f08F2F8f7b67a","Karthik","Kane","Male",dob.getTime(),"+43 123 456 789"
+   ,"harry@kane.com","Musterstraße 123","Wien","Vienna","1010","Austria","+43 123 456 789")
   // const results = await queryPatient("a72e5e2c-5e16-4390-9c97-439d006bef43");
    //console.log(results)
  }
@@ -67,7 +73,9 @@ const webinar = async ()=>{
  //console.log(results)
 //await updateWebinarStatus("deefcaf7-c11d-4f97-8565-4899dd65945a",2)
  //  await updateWebinar("deefcaf7-c11d-4f97-8565-4899dd65945a","Sleep Therapy","Why you should go to bed early?",starttime,endtime,1)
- await updateWebinarImage("81abf391-a069-474c-bd5c-b43f0422d4dd","https://bafybeibt7xik2quxj5mzzm43wp5lmgl4jatmq3qwr4hfsrwzjgzvyr2yx4.ipfs.dweb.link/diabetes.jpg")
+ //await updateWebinarImage("81abf391-a069-474c-bd5c-b43f0422d4dd","https://bafybeibt7xik2quxj5mzzm43wp5lmgl4jatmq3qwr4hfsrwzjgzvyr2yx4.ipfs.dweb.link/diabetes.jpg")
+ //await updateWebinarFee("0c74f745-934f-4094-85c6-ebb8f39d892b",10)
+  await deleteWebinar("a6e2ed95-012c-4ee2-87ff-b02d54a3b981")
 }
 
 const lit = async ()=>{

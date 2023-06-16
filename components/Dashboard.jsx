@@ -14,7 +14,7 @@ import {
 import coop from "../public/coop.jpg";
 import kink from "../public/kink.jpg";
 import ActivityList from "../components/dashboard/ActivityList";
-import DocumentList from "../components/dashboard/DocumentList";
+import MyWebinars from "../components/dashboard/MyWebinars"
 import DoctorAppointmentList from "../components/dashboard/DoctorAppointmentList";
 import PatientAppointmentList from "../components/dashboard/PatientAppointmentList";
 import WebinarList from "../components/dashboard/WebinarList";
@@ -32,7 +32,7 @@ const teams = [
   { id: 1, name: "Doctor", href: "#", initial: "+", current: false },
   { id: 2, name: "Patient", href: "#", initial: "+", current: false },
   { id: 3, name: "Webinars", href: "#", initial: "+", current: false },
-  // { id: 4, name: "My Webinars", href: "#", initial: "+", current: false },
+   { id: 4, name: "My Webinars", href: "#", initial: "+", current: false },
 ];
 
 const stats = [
@@ -83,17 +83,10 @@ export default function Example() {
   const [patientStats, setPatientStats] = useState([]);
   const [doctorStats, setDoctorStats] = useState([]);
 
-<<<<<<< HEAD
   const [selectedTab, setSelectedTab] = useState("Doctor");
   const [doctor,setDoctor] = useState()
   const [patient,setPatient] = useState()
   const { data: signer} = useSigner()
-=======
-  const [selectedTab, setSelectedTab] = useState("Overview");
-  const [doctor, setDoctor] = useState();
-  const [patient, setPatient] = useState();
-  const { data: signer } = useSigner();
->>>>>>> f22eeb150fb302429d54a371a6a4c879b7133676
 
   const doctorStatsCallback = (_stats) => {
     setDoctorStats(_stats);
@@ -464,9 +457,9 @@ export default function Example() {
               <WebinarList presenter={`${doctor?.firstname} ${doctor?.lastname}`} />
 
               </div>}
-              <div hidden={selectedTab != "My Webinars"}>
-                <DocumentList />
-              </div>
+              {selectedTab == "My Webinars" &&<div >
+                <MyWebinars />
+                                          </div>}
             </header>
           </main>
         </div>

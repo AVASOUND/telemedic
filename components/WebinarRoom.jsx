@@ -8,15 +8,19 @@ import { useSigner } from "wagmi";
 import landingSC from "../public/landingSC.png";
 import Image from "next/image";
 import Header from "./Header";
-import { useRouter } from "next/navigation";
-
+import { useRouter,usePathname  } from "next/navigation";
+import { queryWebinarByTokenId,queryPatient } from "@/mypolybase/polybase";
+import format from "date-fns/format";
 export default function Webinar() {
   const { data: signer } = useSigner();
   const router = useRouter();
-
+  const pathname = usePathname() 
   const [roomId, setRoomId] = useState();
   const [pToken, setPToken] = useState();
-
+  const [tokenId,setTokenId] = useState()
+  const [webinar,setWebinar] = useState()
+  const [patient,setPatient] = useState()
+  
   const _createWebinar = async () => {
     try {
       const result = await createWebinar();
@@ -29,9 +33,11 @@ export default function Webinar() {
     }
   };
 
-  const _addWebinarParticipant = async () => {
+  const JoinWebinar = async () => {
     try {
-      const result = await addWebinarParticipant("Dominic Hackett", roomId);
+
+      const name = (patient ? `${patient.data.firstname} ${patient.data.lastname}` : "Guest")
+      const result = await addWebinarParticipant(name, roomId);
       console.log(result);
       setPToken(result?.token);
     } catch (err) {
@@ -39,17 +45,63 @@ export default function Webinar() {
     }
   };
 
-  function backToWebinars() {
-    router.push("/webinar");
+  function backToDashBoard() {
+    router.push("/dashboard");
   }
+
+
+  useEffect(()=>{
+     function getTokenId()
+     {
+      
+      const endPart = pathname.split('/').pop();
+      setTokenId(parseInt(endPart))
+      console.log(endPart)
+     }
+    if(pathname)
+      getTokenId()
+  },[pathname])
+
+
+  useEffect(()=>{
+    async function getWebinar()
+    {
+     
+      const result = await queryWebinarByTokenId(tokenId)
+      setWebinar(result)
+      setRoomId(result[0]?.data.roomId)
+      console.log(result)
+    }
+   if(tokenId)
+     getWebinar()
+ },[tokenId])
+
+ 
+ useEffect(()=>{
+  async function getPatient()
+  {
+   
+    const result = await queryPatient(await signer.getAddress())
+    setPatient(result)
+    console.log(result)
+  }
+ if(signer)
+   getPatient()
+},[signer])
 
   return (
     <div className="bg-white py-12 w-full">
       <div className="mx-auto max-w px-6 text-center lg:px-8">
-        <div className="mx-auto max-w-2xl">
+        <div className="mx-auto max-w-4xl">
           {/* insert title here */}
+          <div className="flex items-center gap-x-4">
+          <img
+                    src={(webinar ? webinar[0].data.image : "profile.jpg")}
+                    alt=""
+                    className="h-32 w-32 rounded-full bg-black"
+                  /></div>
           <h2 className="text-2xl font-bold leading-10 tracking-tight text-gray-900">
-            Insert Title
+            {( webinar ? webinar[0]?.data.title:"")}
           </h2>
           <p className=" text-xs italic leading-7 text-gray-600">
             powered by Telemedic
@@ -57,47 +109,19 @@ export default function Webinar() {
           <hr></hr>
           {/*  Insert Room #, Date & Time and Description*/}
           <div className="flex flex-row items-center justify-evenly">
-            <p className="my-4 text-base leading-7 text-gray-600">Room #</p>
+            <p className="my-4 text-base leading-7 text-gray-600">Room #   {( webinar ? webinar[0]?.data.roomId:"")}</p>
 
             <p className="my-4 text-base leading-7 text-gray-600">
-              Date & Time
+            {( webinar ? format(new Date(webinar[0].data.starttime), 'eee do MMMM yyyy hh:mm a'):"")}
             </p>
           </div>
-          <p className="my-4 text-sm leading-7 text-gray-600">Description</p>
           {/* P L A C E H O L D E R FOR IFRAME */}
-          <div className=" rounded-xl bg-gray-900/5 p-2 ring-1 ring-inset ring-gray-900/10 lg:rounded-2xl lg:p-4">
-            <p className="my-2 text-base leading-7 text-gray-600">
-              Placeholder for iframe below
-            </p>
+          <div className="min-h-[500px] rounded-xl bg-gray-900/5 p-2 ring-1 ring-inset ring-gray-900/10 lg:rounded-2xl lg:p-4">
+           
 
-            {/*  replace image tag with iframe */}
-            <Image
-              src={landingSC}
-              alt="App screenshot"
-              width={2432}
-              height={1442}
-              className="rounded-md shadow-2xl ring-1 ring-gray-900/10"
-            />
-          </div>
-          <div className="my-8">
-            <button
-              type="button"
-              className=" m-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 "
-              onClick={backToWebinars}
-            >
-              Leave Webinar
-            </button>
-            {/* 
-            <button
-              type="button"
-              className=" m-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 "
-              onClick={() => _addWebinarParticipant()}
-            >
-              Join Webinar
-            </button> */}
-          </div>
-          {pToken && (
+            {pToken && (
             <LiveKitRoom
+
               audio={true}
               video={true}
               data-lk-theme="default"
@@ -108,6 +132,33 @@ export default function Webinar() {
               <VideoConference />
             </LiveKitRoom>
           )}
+          </div>
+          <div className="my-8">
+            <button
+              type="button"
+              className=" m-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 "
+              onClick={backToDashBoard}
+            >
+              Leave Webinar
+            </button>
+          {!pToken &&  <button
+              
+              type="button"
+              className=" m-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 "
+              onClick={JoinWebinar}
+            >
+              Join Webinar
+            </button>}
+            {/* 
+            <button
+              type="button"
+              className=" m-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 "
+              onClick={() => _addWebinarParticipant()}
+            >
+              Join Webinar
+            </button> */}
+          </div>
+          
         </div>
       </div>
     </div>

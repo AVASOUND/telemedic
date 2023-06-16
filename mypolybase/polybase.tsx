@@ -325,13 +325,13 @@ export const queryAppointmentsForPatient = async (id:string )=>{
 }
 
 
-export const insertWebinar = async (title:string,description:string,starttime:number,endtime:number,owner:string,tokenId:number,roomId:string,image:string)=>{
+export const insertWebinar = async (title:string,description:string,starttime:number,endtime:number,owner:string,tokenId:number,roomId:string,image:string,fee:number)=>{
 
     const  webinarCollection = db.collection("Webinar");
 
     const id = uuidv4()
     try{
-        const recordData = await webinarCollection.create([id,title,description,starttime,endtime,owner,tokenId,roomId,image])
+        const recordData = await webinarCollection.create([id,title,description,starttime,endtime,owner,tokenId,roomId,image,fee])
     }catch(error:any) 
     {
         throw Error(error.message)
@@ -341,13 +341,13 @@ export const insertWebinar = async (title:string,description:string,starttime:nu
 }
 
 
-export const updateWebinar = async (id:string,title:string,description:string,starttime:number,endtime:number,tokenId:number,roomId:string,image:string)=>{
+export const updateWebinar = async (id:string,title:string,description:string,starttime:number,endtime:number,tokenId:number,roomId:string,image:string,fee:number)=>{
 
   const  webinarCollection = db.collection("Webinar");
 
   
   try{
-      const recordData = await webinarCollection.record(id).call("updateWebinar",[title,description,starttime,endtime,tokenId,roomId,image])
+      const recordData = await webinarCollection.record(id).call("updateWebinar",[title,description,starttime,endtime,tokenId,roomId,image,fee])
   }catch(error:any) 
   {
       throw Error(error.message)
@@ -373,6 +373,22 @@ export const updateWebinarImage = async (id:string,image:string)=>{
 
 
 }
+
+export const updateWebinarFee = async (id:string,fee:number)=>{
+
+  const  webinarCollection = db.collection("Webinar");
+
+  
+  try{
+      const recordData = await webinarCollection.record(id).call("setFee",[fee])
+  }catch(error:any) 
+  {
+      throw Error(error.message)
+  }
+
+
+}
+
 export const updateWebinarStatus = async (id:string,status:number)=>{
 
   const  webinarCollection = db.collection("Webinar");
@@ -380,6 +396,21 @@ export const updateWebinarStatus = async (id:string,status:number)=>{
   
   try{
       const recordData = await webinarCollection.record(id).call("setStatus",[status])
+  }catch(error:any) 
+  {
+      throw Error(error.message)
+  }
+
+
+}
+
+export const deleteWebinar = async (id:string)=>{
+
+  const  webinarCollection = db.collection("Webinar");
+
+  
+  try{
+      const recordData = await webinarCollection.record(id).call("del",[])
   }catch(error:any) 
   {
       throw Error(error.message)
@@ -401,6 +432,18 @@ export const queryWebinar = async (id:string)=>{
    
 }
 
+export const queryWebinarByTokenId = async (tokenId:number)=>{
+
+  const webinarCollection = db.collection("Webinar");
+  try{
+        const record = await webinarCollection.where("tokenId","==",tokenId).get();
+  
+               return record.data
+      }catch(error:any){
+    throw Error(error.message)
+  } 
+   
+}
 
 export const queryWebinars = async ()=>{
 
