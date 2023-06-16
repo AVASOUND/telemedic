@@ -216,7 +216,6 @@ export default function Example() {
           </p>
           <div className="flex flex-row">
             <button
-              onClick={handleClick}
               className=" items-center justify-center flex-row rounded-lg border-2 p-2 text-sm font-semibold text-green-700"
             >
               Sign up as doctor

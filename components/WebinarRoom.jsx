@@ -21,17 +21,7 @@ export default function Webinar() {
   const [webinar,setWebinar] = useState()
   const [patient,setPatient] = useState()
   
-  const _createWebinar = async () => {
-    try {
-      const result = await createWebinar();
-
-      console.log(result);
-
-      setRoomId(result.id);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+ 
 
   const JoinWebinar = async () => {
     try {

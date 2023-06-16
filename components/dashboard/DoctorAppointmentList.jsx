@@ -5,6 +5,7 @@ import { useEffect,useState } from "react";
 import { queryAppointmentsForDoctor } from "@/mypolybase/polybase";
 import { useSigner  } from 'wagmi'
 import {format} from 'date-fns'
+import { useRouter } from "next/navigation";
 
 const statuses = {
   2: "text-green-400 bg-green-400/10",
@@ -24,6 +25,7 @@ function classNames(...classes) {
 export default function DoctorAppointmentList(props) {
     const [appointments,setAppointments] = useState([]) 
     const { data: signer} = useSigner()
+    const router = useRouter();
 
     useEffect(()=>{
         async function getAppointments(){
@@ -90,7 +92,7 @@ export default function DoctorAppointmentList(props) {
         </thead>
         <tbody className="divide-y divide-white/5">
           {appointments.map((item) => (
-            <tr key={item.id}className="cursor-pointer">
+            <tr key={item.id}className="cursor-pointer" onClick={()=>router.push(`/appointment/${item.roomId}`)}>
               <td className="py-4 pl-4 pr-8 sm:pl-6 lg:pl-8">
                 <div className="flex items-center gap-x-4">
                   <img

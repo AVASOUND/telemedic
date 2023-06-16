@@ -6,10 +6,10 @@ import { Audio, Video } from '@huddle01/react/components';
 import { createAppointmentRoom ,getToken} from '@/utils/utils';
 import {format} from 'date-fns'
 import { useSigner  } from 'wagmi'
-import { useAccount, useSignMessage } from "wagmi";
+import { useSignMessage } from "wagmi";
 import { getAccessToken, getMessage } from "@huddle01/auth";
 import { useDisplayName } from "@huddle01/react/app-utils";
-import { HuddleIframe,iframeApi  } from "@huddle01/iframe";
+import { HuddleIframe  } from "@huddle01/iframe";
 
 export default function AppointmentVideo() {
     const { data: signer} = useSigner()

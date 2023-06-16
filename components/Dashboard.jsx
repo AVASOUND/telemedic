@@ -411,7 +411,7 @@ export default function Example() {
                   ))}
                 </div>
               </div>
-              {selectedTab == "Doctor" && (
+              {(selectedTab == "Doctor" && doctor) &&  (
                 <div>
                   <DoctorAppointmentList
                     doctor={doctor}

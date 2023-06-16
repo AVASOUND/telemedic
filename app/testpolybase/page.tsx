@@ -3,7 +3,7 @@ import Hero from "../../components/Hero";
 import Team from "../../components/Team";
 import {deleteWebinar, insertSpecialty,querySpecialty,insertDoctor,queryDoctors,insertPatient,queryPatient,
   insertAppointment,updateWebinarImage,updateAppointmentNotes,updateAppointmentStatus,updateDoctorPicture,updateWebinarFee
-  ,updateDoctor,updatePatient,queryDoctor,insertWebinar,updateWebinar,updateWebinarStatus,queryWebinar,queryWebinars } from "@/mypolybase/polybase";
+  ,updateDoctor,updatePatient,queryDoctor,insertWebinar,updateWebinar,updateWebinarStatus,queryWebinar,queryWebinars, updatePatientId,deletePatient,deleteAppointment } from "@/mypolybase/polybase";
   import { encryptNotes,decryptNotes } from "@/lit/lit";
   import { useSigner  } from 'wagmi'
   import * as LitJsSdk from "@lit-protocol/lit-node-client";
@@ -31,13 +31,15 @@ const _insertDoctor = async()=>{
 }
 
 const _insertPatient = async()=>{
-    const dob = new Date()
-   const results = await insertPatient("0xFE5dBbF91b0CD48A8eB8f039F0CD7cB281990071","Felix","Prabitz","Male",dob.getTime(),"+43 123 456 789"
-   ,"felix@prabitz.com","Musterstraße 123","Wien","Vienna","1010","Austria","+43 123 456 789")
-   await insertPatient("0x7F36cba7Da4F7915bf5775cBF91f08F2F8f7b67a","Karthik","Kane","Male",dob.getTime(),"+43 123 456 789"
-   ,"harry@kane.com","Musterstraße 123","Wien","Vienna","1010","Austria","+43 123 456 789")
+   // const dob = new Date()
+   //const results = await insertPatient("0xFE5dBbF91b0CD48A8eB8f039F0CD7cB281990071","Felix","Prabitz","Male",dob.getTime(),"+43 123 456 789"
+   //,"felix@prabitz.com","Musterstraße 123","Wien","Vienna","1010","Austria","+43 123 456 789")
+   //await insertPatient("0x7F36cba7Da4F7915bf5775cBF91f08F2F8f7b67a","Karthik","Kane","Male",dob.getTime(),"+43 123 456 789"
+   //,"harry@kane.com","Musterstraße 123","Wien","Vienna","1010","Austria","+43 123 456 789")
   // const results = await queryPatient("a72e5e2c-5e16-4390-9c97-439d006bef43");
    //console.log(results)
+   //await updatePatientId()
+   await deletePatient("a72e5e2c-5e16-4390-9c97-439d006bef43")
  }
 
 
@@ -51,7 +53,7 @@ const _insertPatient = async()=>{
 
 // await updateAppointmentNotes("30b78cab-a831-4a6a-8a8e-b2f24bacca4d","You are ok.")
 //await updateAppointmentStatus("30b78cab-a831-4a6a-8a8e-b2f24bacca4d",2)
-const results = await queryAppointments()
+/*const results = await queryAppointments()
 console.log(results)
 const _address = await signer?.getAddress()
 console.log(results[0])
@@ -60,7 +62,9 @@ if(results[0]?.encryptedSymmetricKey)
 {const encryptedSymmetricKey = results[0].encryptedSymmetricKey
 const encryptedString = new Blob([results[0].notes], { type: "application/octet-stream" });
 const {decryptedString} = await decryptNotes( encryptedString,_address,_address,encryptedSymmetricKey)
-console.log(decryptedString)}
+console.log(decryptedString)}*/
+await deleteAppointment("926a931a-0600-451d-85a0-6dd2ba6dacd0")
+await deleteAppointment("30b78cab-a831-4a6a-8a8e-b2f24bacca4d")
 }
 
 const webinar = async ()=>{
