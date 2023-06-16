@@ -6,6 +6,7 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import landingSC from "../public/landingSC.png";
 import Image from "next/image";
+import telemediclogo from "../public/telemediclogo.png";
 const navigation = [
   { name: "Meet a doctor", href: "/meetadoc" },
   { name: "Dashboard", href: "/dashboard" },
@@ -129,7 +130,7 @@ export default function Example() {
                 The solution for digital healthcare, meet a doctor - 24/7
                 availability.
               </p>
-              <div className="mt-10 flex items-center justify-center gap-x-6">
+              <div className="my-10 flex items-center justify-center gap-x-6">
                 <a
                   href="/meetadoc"
                   className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
@@ -138,13 +139,27 @@ export default function Example() {
                 </a>
               </div>
             </div>
-            <div className="mt-16 flow-root sm:mt-24">
-              <div className="-m-2 rounded-xl bg-gray-900/5 p-2 ring-1 ring-inset ring-gray-900/10 lg:-m-4 lg:rounded-2xl lg:p-4">
+            <div className="">
+              <div className="m-12 flex rounded-xl flex-row items-center justify-around  bg-gray-900/5 p-2 ring-1 ring-inset ring-gray-900/10 lg:-m-4 lg:rounded-2xl lg:p-4">
                 <Image
-                  src={landingSC}
+                  src={telemediclogo}
                   alt="App screenshot"
-                  width={2432}
-                  height={1442}
+                  width={200}
+                  height={200}
+                  className="rounded-md shadow-2xl ring-1 ring-gray-900/10"
+                />
+                <Image
+                  src={telemediclogo}
+                  alt="App screenshot"
+                  width={200}
+                  height={200}
+                  className="rounded-md shadow-2xl ring-1 ring-gray-900/10"
+                />
+                <Image
+                  src={telemediclogo}
+                  alt="App screenshot"
+                  width={200}
+                  height={200}
                   className="rounded-md shadow-2xl ring-1 ring-gray-900/10"
                 />
               </div>
