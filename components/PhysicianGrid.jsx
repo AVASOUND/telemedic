@@ -47,7 +47,7 @@ export default function Example() {
     try {
           const results = queryDoctors()
           setDoctors(results)    
-    }catch(error:any)
+    }catch(error)
     {
 
     }
