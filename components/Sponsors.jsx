@@ -51,7 +51,7 @@ const people = [
   },
 
   {
-    name: "Push Control",
+    name: "Push Protocol",
     role: "Notifications",
     location: "",
     imageUrl:
