@@ -255,7 +255,7 @@ useEffect(()=>{
      {Object.values(peers)
             .filter((peer) => peer.cam)
             .map((peer) => (
-              <div>
+              <div  key={peer.peerId}>
               <Video
                 key={peer.peerId}
                 peerId={peer.peerId}
