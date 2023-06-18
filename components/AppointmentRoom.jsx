@@ -250,32 +250,35 @@ useEffect(()=>{
       
   
   </div>
-  <div>
+  
 
      {Object.values(peers)
             .filter((peer) => peer.cam)
             .map((peer) => (
+              <div>
               <Video
                 key={peer.peerId}
                 peerId={peer.peerId}
                 track={peer.cam}
                 className="h-[400px] w-[600px] bg-black"
-                hidden={!joinLobby || joinLobby.isCallable}
                 // debug
               />
-            ))}
+
+              <h2               hidden={!joinLobby || joinLobby.isCallable} 
+              className="text-center mt-2 text-black">{(address && appointment !=null ? (address == appointment.doctor.ethAddress  ?   `${appointment.patient.firstname} ${appointment.patient.lastname}`:`${appointment.doctor.firstname}  ${appointment.doctor.lastname}` ) : "")}</h2>
+             
+               </div>
+))}
           {Object.values(peers)
             .filter((peer) => peer.mic)
             .map((peer) => (
               <Audio key={peer.peerId} peerId={peer.peerId} track={peer.mic} />
             ))}
-    <h2               hidden={!joinLobby || joinLobby.isCallable} 
- className="text-center mt-2 text-black">{(address && appointment !=null ? (address == appointment.doctor.ethAddress  ?   `${appointment.patient.firstname} ${appointment.patient.lastname}`:`${appointment.doctor.firstname}  ${appointment.doctor.lastname}` ) : "")}</h2>
-
-  </div>
+   
   <div className="ml-6"               hidden={!joinLobby || joinLobby.isCallable} >
-    <video ref={videoRef}  autoPlay muted className="m-2 h-[200px] w-[250px] bg-black" /> 
-   <h2 className="text-center mt-2 text-black">{(address && appointment !=null ? (address == appointment.doctor.ethAddress  ? `${appointment.doctor.firstname}  ${appointment.doctor.lastname}` : `${appointment.patient.firstname} ${appointment.patient.lastname}` ) : "")}</h2>
+   
+    <video ref={videoRef}  autoPlay muted className={peerIds?.length >= 1 ? "m-2 h-[200px] w-[250px] bg-black" : "h-[400px] w-[600px] bg-black"} /> 
+   <h2 className="text-center mt-2 text-black">{(address && appointment !=null ? (address == appointment.doctor.ethAddress  ? `${appointment.doctor.firstname}  ${appointment.doctor.lastname}` : `${appointment.patient.firstname} ${appointment.patient.lastname}` ) : "")}  {peerIds?.length}</h2>
   </div>
 </div>
 
