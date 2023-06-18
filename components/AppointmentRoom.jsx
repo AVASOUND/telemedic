@@ -20,16 +20,18 @@ import * as LitJsSdk from "@lit-protocol/lit-node-client";
 export default function Appointment() {
   const { data: signer} = useSigner()
     const videoRef = useRef();
+    const peerVideoRef = useRef()
     const {address} = useAccount()
     const [roomId,setRoomId] = useState()   
     const pathname = usePathname() 
     const [appointment,setAppoinment] = useState(null) 
     const [accessToken,setAccessToken] = useState()
+    const [peer,setPeer] = useState()
     const [notes,setNotes] = useState("")
     const router = useRouter()
     const [hostUrl,setHostUrl] = useState()
     const [redirectUrl,setRedirectUrl] = useState()
-    const { initialize, isInitialized } = useHuddle01();
+    const { meId,initialize, isInitialized } = useHuddle01();
     const {recordingFile,setRecordingFile} = useState()
     const [displayNameText, setDisplayNameText] = useState("Dominic Hackett");
     const { setDisplayName, error: displayNameError } = useDisplayName();
@@ -95,7 +97,7 @@ useEffect(()=>{
         },
       });
     const { joinLobby } = useLobby();
-        const { peers } = usePeers();
+        const { peers,peerIds } = usePeers();
         const {
             startRecording,
             stopRecording,
@@ -154,8 +156,10 @@ useEffect(()=>{
   useEventListener("lobby:cam-on", () => {
     if (videoStream && videoRef.current) videoRef.current.srcObject = videoStream;
   });
+  
+ 
 
-
+ 
   return (
     <div className="bg-white py-12 w-full">
       <div className="mx-auto max-w px-6 text-center lg:px-8">
@@ -247,15 +251,31 @@ useEffect(()=>{
   
   </div>
   <div>
-    <Video peerId={peers[0]?.peerId}       hidden={joinLobby.isCallable} 
-  autoPlay muted className="h-[400px] w-[600px] bg-black"/>
+
+     {Object.values(peers)
+            .filter((peer) => peer.cam)
+            .map((peer) => (
+              <Video
+                key={peer.peerId}
+                peerId={peer.peerId}
+                track={peer.cam}
+                className="h-[400px] w-[600px] bg-black"
+                hidden={!joinLobby || joinLobby.isCallable}
+                // debug
+              />
+            ))}
+          {Object.values(peers)
+            .filter((peer) => peer.mic)
+            .map((peer) => (
+              <Audio key={peer.peerId} peerId={peer.peerId} track={peer.mic} />
+            ))}
     <h2               hidden={!joinLobby || joinLobby.isCallable} 
  className="text-center mt-2 text-black">{(address && appointment !=null ? (address == appointment.doctor.ethAddress  ?   `${appointment.patient.firstname} ${appointment.patient.lastname}`:`${appointment.doctor.firstname}  ${appointment.doctor.lastname}` ) : "")}</h2>
 
   </div>
   <div className="ml-6"               hidden={!joinLobby || joinLobby.isCallable} >
-    <video ref={videoRef}  autoPlay muted className="m-2 h-[200px] w-[250px] bg-black"peerId={peers[0]?.peerId} /> 
-    <Audio peerId={peers[0]?.peerId} />   <h2 className="text-center mt-2 text-black">{(address && appointment !=null ? (address == appointment.doctor.ethAddress  ? `${appointment.doctor.firstname}  ${appointment.doctor.lastname}` : `${appointment.patient.firstname} ${appointment.patient.lastname}` ) : "")}</h2>
+    <video ref={videoRef}  autoPlay muted className="m-2 h-[200px] w-[250px] bg-black" /> 
+   <h2 className="text-center mt-2 text-black">{(address && appointment !=null ? (address == appointment.doctor.ethAddress  ? `${appointment.doctor.firstname}  ${appointment.doctor.lastname}` : `${appointment.patient.firstname} ${appointment.patient.lastname}` ) : "")}</h2>
   </div>
 </div>
 

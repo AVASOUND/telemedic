@@ -23,17 +23,17 @@ const _insertDoctor = async()=>{
    //console.log(result)
   //const results = await queryDoctors();
   ///console.log(results)
- await updateDoctorPicture("c14ea435-5c75-44d6-ac7a-89dd8b8d4cb8","https://telemedic.vercel.app/eth.jpg")
+ //await updateDoctorPicture("c14ea435-5c75-44d6-ac7a-89dd8b8d4cb8","https://telemedic.vercel.app/eth.jpg")
 
- ///await insertDoctor("Dr. Devica","Singh","cc93429a-43aa-4992-be1c-0663a7dcea36","A general practitioner (GP) is a primary care physician who provides comprehensive medical care to patients of all ages and backgrounds. They serve as the first point of contact for individuals seeking healthcare services and play a vital role in promoting overall well-being and disease prevention. GPs have broad knowledge and expertise in various areas of medicine, allowing them to diagnose and treat a wide range of common illnesses and health conditions. They conduct physical examinations, order diagnostic tests, and prescribe medications to manage acute and chronic diseases. GPs also provide preventive care, such as vaccinations, health screenings, and lifestyle counseling, to help patients maintain optimal health and prevent future health problems.","5 Years","1-868-555-0301","devica@telemedic.com","321 11th Avenue","New York","New York","11203","United States",60,"Star","0x77DDd0f344771D97951fB2307901B5B5d5EB5D35")
+ await insertDoctor("Dr. Aristotle","Archer","cc93429a-43aa-4992-be1c-0663a7dcea36","A general practitioner (GP) is a primary care physician who provides comprehensive medical care to patients of all ages and backgrounds. They serve as the first point of contact for individuals seeking healthcare services and play a vital role in promoting overall well-being and disease prevention. GPs have broad knowledge and expertise in various areas of medicine, allowing them to diagnose and treat a wide range of common illnesses and health conditions. They conduct physical examinations, order diagnostic tests, and prescribe medications to manage acute and chronic diseases. GPs also provide preventive care, such as vaccinations, health screenings, and lifestyle counseling, to help patients maintain optimal health and prevent future health problems.","5 Years","1-868-555-0401","ari@telemedic.com","321 11th Avenue","New York","New York","11203","United States",60,"Star","0x61842800aC0759DdEB4f2029e2d3F65D4ea44960")
    
 
 }
 
 const _insertPatient = async()=>{
    const dob = new Date()
-   const results = await insertPatient("0x77DDd0f344771D97951fB2307901B5B5d5EB5D35","Kevin","Smith","Male",dob.getTime(),"+43 123 456 789"
-   ,"kevin@prabitz.com","112 Brooklyn Avenue","Brooklyn","New York","11203","United States","347-555-5555")
+   const results = await insertPatient("0x61842800aC0759DdEB4f2029e2d3F65D4ea44960","Alexei","Jacob","Male",dob.getTime(),"1-918-555-5555"
+   ,"ari@telemedic.com","754 Brooklyn Avenue","Brooklyn","New York","11203","United States","347-556-5555")
    //await insertPatient("0x7F36cba7Da4F7915bf5775cBF91f08F2F8f7b67a","Karthik","Kane","Male",dob.getTime(),"+43 123 456 789"
    //,"harry@kane.com","Musterstraße 123","Wien","Vienna","1010","Austria","+43 123 456 789")
   // const results = await queryPatient("a72e5e2c-5e16-4390-9c97-439d006bef43");
